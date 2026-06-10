@@ -5,7 +5,7 @@ export default function App() {
   return (
     <ScrollView style={styles.fundo}>
       <View>
-      <Text>catalogo de plantas</Text>
+      <Text style = {styles.titulo}>CATÁLOGO DE PLANTAS</Text>
       </View>
       <View>
         <Button onPress={() => {setIsHungry(false);}} title={'Babosa'}>
@@ -15,7 +15,6 @@ export default function App() {
         </Button>
 
         <Button onPress={() => {setIsHungry(false);}} title={'Rosa'}>
-
         </Button>
 
 
@@ -32,4 +31,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#71cc5e',
     textAlign: 'center'
   },
+  titulo: {
+    textAlign: 'center',
+    padding: 15,
+    fontFamily: 'serif',
+    fontWeight: 'bold',
+    fontSize: 20
+  }
 });
