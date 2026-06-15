@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
   linhaInfo: {
     flexDirection: 'row',
     marginTop: 50,
-    marginLeft:40
+    marginLeft:10
   },
   caixaInfo: {
     backgroundColor: '#1f2937',
