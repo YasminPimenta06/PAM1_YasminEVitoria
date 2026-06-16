@@ -12,44 +12,44 @@ export default function App() {
 
         <View style={styles.card}>
           <Image
-            source={{ uri: 'https://s2-receitas.glbimg.com/Y3zOC3HOR0RL5TXNxzg6lanqxaA=/0x0:7072x3978/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_1f540e0b94d8437dbbc39d567a1dee68/internal_photos/bs/2025/j/G/rYF3RXTdiBsAr3n5wylw/babosa-para-que-serve-entenda-os-beneficios-da-planta-para-o-cabelo-e-hidratacao-da-pele.jpg' }}
+            source={{ uri: 'https://blog.plantei.com.br/wp-content/uploads/2021/07/costela-de-adao.jpg' }}
             style={styles.imagem}
           />
 
-          <Text style={styles.nome}>BABOSA</Text>
+          <Text style={styles.nome}>COSTELA DE ADAO</Text>
           <Text style={styles.texto}>
             A babosa é uma planta medicinal muito conhecida. Suas folhas possuem um gel usado em cuidados com a pele e cabelos.
           </Text>
 
-          <Button onPress={() => {setIsHungry(false);}} title={'Babosa'} />
+          <Button onPress={() => {setIsHungry(false);}} title={'VER PLANTAS ORNAMENTAIS'} />
         </View>
 
         <View style={styles.card}>
           <Image
-            source={{ uri: 'https://cptstatic.s3.amazonaws.com/imagens/enviadas/materias/materia27075/abacateiro-cpt.jpeg' }}
+            source={{ uri: 'https://blog.plantei.com.br/wp-content/uploads/2024/09/samamabaia-americana-lojaplantei.jpg' }}
             style={styles.imagem}
           />
 
-          <Text style={styles.nome}>ABACATEIRO</Text>
+          <Text style={styles.nome}>SAMAMBAIA</Text>
           <Text style={styles.texto}>
             O abacateiro é a árvore que produz o abacate. Ele gosta de clima quente e seu fruto é rico em vitaminas e gorduras boas.
           </Text>
 
-          <Button onPress={() => {setIsHungry(false);}} title={'Abacatero'} />
+          <Button onPress={() => {setIsHungry(false);}} title={'VER MAIS'} />
         </View>
 
         <View style={styles.card}>
           <Image
-            source={{ uri: 'https://s2-casavogue.glbimg.com/ccceMlQvOOZgj3lb-gFbDJE_7Co=/0x0:1920x1280/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_d72fd4bf0af74c0c89d27a5a226dbbf8/internal_photos/bs/2023/C/a/QDryJPQQqEE9XzAe7xWA/rosa-como-plantar-e-cuidar-3.jpg' }}
+            source={{ uri: 'https://cdnm.westwing.com.br/glossary/uploads/br/2023/11/03213041/Moderna-e-exotica-a-planta-colar-de-perola-e-uma-otima-opcao-para-usar-na-sua-decoracao.-Fonte.-Pexels.jpg' }}
             style={styles.imagem}
           />
 
-          <Text style={styles.nome}>ROSA</Text>
+          <Text style={styles.nome}>COLAR DE PEROLA</Text>
           <Text style={styles.texto}>
             A rosa é uma das flores mais conhecidas do mundo. Ela é muito usada em jardins, buquês e decorações.
           </Text>
 
-          <Button onPress={() => {setIsHungry(false);}} title={'Rosa'} />
+          <Button onPress={() => {setIsHungry(false);}} title={'VER SUCULENTAS'} style={{color: '#966161'}}/>
         </View>
       </View>
     </ScrollView>
@@ -72,45 +72,46 @@ const styles = StyleSheet.create({
     marginTop: 25,
     fontWeight: 'bold',
     fontSize: 27,
-    color: '#1b5e20',
+    color: '#080f08',
   },
 
   subtitulo: {
     textAlign: 'center',
     fontSize: 16,
-    color: '#3e7d42',
+    color: '#168f1e',
     marginTop: 8,
+    fontFamily: 'Roboto',
     marginBottom: 25,
   },
 
   card: {
-    width: '50%',
+    width: '80%',
     backgroundColor: '#110f0f',
-    borderRadius: 22,
-    padding: 18,
-    marginBottom: 25,
-    alignItems: 'center'
+        padding: 18,
+    
+    
   },
 
   imagem: {
     width: '100%',
-    height: 190,
-    borderRadius: 18,
+    height: 350,
     marginBottom: 15,
   },
 
   nome: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#2e7d32',
+    color: '#ffffff',
     marginBottom: 8,
   },
 
   texto: {
     fontSize: 15,
-    color: '#818080',
-    textAlign: 'center',
-    lineHeight: 22,
+    color: '#818080',  
     marginBottom: 15,
+    fontFamily: 'Roboto'
   },
+  botao: {
+    Color: '#df3f3f'
+  }
 });
