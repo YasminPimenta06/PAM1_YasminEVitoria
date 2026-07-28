@@ -5,47 +5,95 @@ import { StyleSheet, Text, View, TextInput, Image, ScrollView, Button } from 're
 
 export default function App() {
   return (
-    <ScrollView>
+    <ScrollView >
       <View style={styles.fundo}>
-        <Text style={styles.tituloPrincipal}>Minha receita</Text>
+        <Text style={styles.tituloPrincipal}>QUIZUR</Text>
 
         <TextInput
-          placeholder="Pesquisar receitas..."
+          placeholder="Pesquisar quizes..."
           placeholderTextColor="#777"
           style={styles.input}
         />
 
         <Image
           source={{
-            uri: 'https://receitadaboa.com.br/wp-content/uploads/2024/12/bolo-de-chocolate.jpg',
+            uri: 'https://conteudo.imguol.com.br/c/entretenimento/93/2023/08/08/rapunzel-tem-uma-historia-do-seculo-x-como-inspiracao-1691530753314_v2_4x3.jpg',
           }}
           style={styles.imagem}
           resizeMode="cover"
         />
 
         <View style={styles.card}>
-          <Text style={styles.nomeReceita}>Bolo de chocolate</Text>
+          <Text style={styles.pergunta}>Qual o nome dessa princesa?</Text>
 
-          <View style={styles.linhaIngredientes}>
-            <Image
-              source={{
-                uri: 'https://i.pinimg.com/736x/3d/63/0e/3d630e7c96d574c2cf8d8f164b50c493.jpg',
-              }}
-              style={styles.icone}
-              resizeMode="cover"
-            />
+           <TextInput
+          placeholder="Insira"
+          placeholderTextColor="#777"
+          style={styles.input}
+        />
+        <Button 
+        title="Enviar" 
+        onPress={() => Alert.alert('Button pressed')} 
+        color="#5d3972"
+        
+      />
 
-            <Text style={styles.componentes}>Ingredientes</Text>
-          </View>
+      <Text style={styles.pergunta}>Qual o nome do camaleão?</Text>
 
-          <Text style={styles.ingrediente}>• 2 xícaras de farinha</Text>
-          <Text style={styles.ingrediente}>• 3 ovos</Text>
-          <Text style={styles.ingrediente}>• 1 xícara de açúcar</Text>
-          <Text style={styles.ingrediente}>
-            • 1 xícara de chocolate em pó
-          </Text>
-          <Text style={styles.ingrediente}>• 1 colher de fermento</Text>
+           <TextInput
+          placeholder="Insira"
+          placeholderTextColor="#777"
+          style={styles.input}
+        />
+        <Button 
+        title="Enviar" 
+        onPress={() => Alert.alert('Button pressed')} 
+        color="#5d3972"
+      />
+  
+
+      
+
+
+
         </View>
+        <Image
+          source={{
+            uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9dOxc8y-WIESkulR2bwY6cuU4pDCJDpagfKjjzNzTO6d5QMalccJUruM&s=10',
+          }}
+          style={styles.imagem}
+          resizeMode="cover"
+        />
+         <View style={styles.card}>
+          <Text style={styles.pergunta}>Qual o poder da princesa Elsa?</Text>
+
+           <TextInput
+          placeholder="Será que você sabe?"
+          placeholderTextColor="#777"
+          style={styles.input}
+        />
+        <Button 
+        title="Enviar" 
+        onPress={() => Alert.alert('Button pressed')} 
+        color="#125baa"
+        
+      />
+
+      <Text style={styles.pergunta}>Qual o nome da princesa que teve o coração congelado?</Text>
+
+           <TextInput
+          placeholder="Será que você sabe?"
+          placeholderTextColor="#777"
+          style={styles.input}
+        />
+        <Button 
+        title="Enviar" 
+        onPress={() => Alert.alert('Button pressed')} 
+        color="#125baa"
+      
+        
+      />
+      </View>
       </View>
     </ScrollView>
   );
@@ -53,8 +101,8 @@ export default function App() {
 
 const styles = StyleSheet.create({
   fundo: {
-    flexGrow: 1,
-    backgroundColor: '#ffeadd',
+    flex: 1,
+    backgroundColor: '#f1ddf3',
     alignItems: 'center',
     paddingHorizontal: 16,
     paddingBottom: 40,
@@ -64,7 +112,7 @@ const styles = StyleSheet.create({
     fontSize: 26,
     paddingVertical: 20,
     fontWeight: 'bold',
-    color: '#ffffff',
+    color: '#292929',
   },
 
   input: {
@@ -84,42 +132,24 @@ const styles = StyleSheet.create({
     width: '90%',
     maxWidth: 600,
     height: 220,
-    borderRadius: 20,
+    borderRadius: 5,
+    marginTop: 20
   },
 
   card: {
     width: '90%',
     maxWidth: 600,
-    backgroundColor: '#ffffff',
+    backgroundColor: 'rgb(255, 251, 251)',
     padding: 18,
     marginTop: 12,
     borderRadius: 10,
   },
 
-  nomeReceita: {
+  pergunta: {
     fontSize: 22,
     fontWeight: 'bold',
     marginBottom: 16,
     color: '#222222',
-  },
-
-  linhaIngredientes: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 14,
-  },
-
-  icone: {
-    width: 52,
-    height: 52,
-    borderRadius: 8,
-    marginRight: 1,
-  },
-
-  componentes: {
-    color: '#cf6b6b',
-    fontSize: 20,
-    fontWeight: 'bold',
   },
 
   ingrediente: {
@@ -128,4 +158,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#333333',
   },
+  
 });
