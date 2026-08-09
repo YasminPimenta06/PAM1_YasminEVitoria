@@ -1,9 +1,8 @@
-import {View, ScrollView, Text, Image, TextInput, Button, StyleSheet, TouchableOpacity} from 'react-native';
-import { ImageBackground } from 'react-native-web';
+import {View, ScrollView, Text, Image, TextInput, Button, StyleSheet, ImageBackground, TouchableOpacity} from 'react-native';
+
 
 export default function Login({ navigation }) {
   return (
-
     <ImageBackground
       source={{
         uri: 'https://img.magnific.com/fotos-gratis/variedade-de-elementos-de-cinema-em-fundo-vermelho-com-espaco-de-copia_23-2148457848.jpg?semt=ais_hybrid&w=740&q=80'
@@ -11,6 +10,10 @@ export default function Login({ navigation }) {
       style={styles.imagem}
       resizeMode="cover"
     >
+
+      <Text style={styles.tituloPagina}>
+        CINEPOP
+      </Text>
 
       <View style={styles.card}>
 
@@ -34,6 +37,7 @@ export default function Login({ navigation }) {
         <TextInput
           placeholder="abc@123"
           style={styles.input}
+          secureTextEntry
         />
 
         <TouchableOpacity
@@ -48,53 +52,53 @@ export default function Login({ navigation }) {
       </View>
 
     </ImageBackground>
-
   );
 }
+
 const styles = StyleSheet.create({
-fundo: {
-  flex: 1,
-  width: '100%',
-  justifyContent: 'center',
-  alignItems: 'center',
-},
 
   imagem: {
-  flex: 1,
-  width: '100%',
-  justifyContent: 'center',
-  alignItems: 'center',
-
+    flex: 1,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-   card: {
-  backgroundColor: 'rgba(158, 3, 3, 0.92)',
-  width: '90%',
-  maxWidth: 400,
-  padding: 30,
-  borderRadius: 20,
 
-  shadowColor: '#000',
-  shadowOffset: {
-    width: 0,
-    height: 4,
-  },
-  shadowOpacity: 0.3,
-  shadowRadius: 6,
-  elevation: 8,
-},
-
-
-  titulo: {
-    fontFamily: 'serif',
-    fontSize: 28,
+  tituloPagina: {
+    color: '#FFFFFF',
+    fontSize: 32,
     fontWeight: 'bold',
     textAlign: 'center',
+    letterSpacing: 3,
+    marginBottom: 25,
+  },
+
+  card: {
+    backgroundColor: 'rgba(158, 3, 3, 0.92)',
+    width: '90%',
+    maxWidth: 400,
+    padding: 30,
+    borderRadius: 20,
+
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 8,
+  },
+
+  titulo2: {
+    fontSize: 25,
+    fontWeight: 'bold',
     color: '#FFFFFF',
+    textAlign: 'center',
     marginBottom: 25,
   },
 
   texto: {
-    fontFamily: 'serif',
     fontSize: 17,
     color: '#FFFFFF',
     marginTop: 12,
@@ -121,16 +125,9 @@ fundo: {
   },
 
   textoBotao: {
-    color: '#e8dcdc',
+    color: '#FFFFFF',
     fontSize: 18,
     fontWeight: 'bold',
   },
-  titulo2:{
-     fontFamily: 'Arial',
-    fontSize: 25,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
-    marginBottom: 25,
-    marginLeft: 5
-  }
+
 });
