@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   banner: {
     width: '94%',
     alignSelf: 'center',
-    height: 420,
+    height: 540,
     borderRadius: 18,
     overflow: 'hidden',
     marginBottom: 30,
