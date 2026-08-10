@@ -1,11 +1,4 @@
-import {
-  View,
-  ScrollView,
-  Text,
-  Image,
-  TouchableOpacity,
-  StyleSheet
-} from 'react-native';
+import {View, ScrollView, Text,Image,TouchableOpacity, StyleSheet} from 'react-native';
 
 export default function Ingresso({ navigation }) {
   return (
@@ -37,7 +30,6 @@ export default function Ingresso({ navigation }) {
 
         </View>
 
-
         <View style={styles.conteudo}>
 
           <Image
@@ -47,15 +39,11 @@ export default function Ingresso({ navigation }) {
             style={styles.poster}
           />
 
-
           <View style={styles.sessoes}>
 
-            <Text style={styles.sala}>
-              SALA 1 DUB
-            </Text>
+            <Text style={styles.sala}>SALA 1 DUB</Text>
 
             <View style={styles.linhaHorarios}>
-
               <TouchableOpacity style={styles.horario}>
                 <Text style={styles.textoHorario}>14:00</Text>
               </TouchableOpacity>
@@ -67,16 +55,12 @@ export default function Ingresso({ navigation }) {
               <TouchableOpacity style={styles.horario}>
                 <Text style={styles.textoHorario}>19:00</Text>
               </TouchableOpacity>
-
             </View>
 
 
-            <Text style={styles.sala}>
-              SALA 2 VIP
-            </Text>
+            <Text style={styles.sala}>SALA 2 VIP</Text>
 
             <View style={styles.linhaHorarios}>
-
               <TouchableOpacity style={styles.horario}>
                 <Text style={styles.textoHorario}>15:00</Text>
               </TouchableOpacity>
@@ -88,16 +72,12 @@ export default function Ingresso({ navigation }) {
               <TouchableOpacity style={styles.horario}>
                 <Text style={styles.textoHorario}>21:00</Text>
               </TouchableOpacity>
-
             </View>
 
 
-            <Text style={styles.sala}>
-              SALA 3D
-            </Text>
+            <Text style={styles.sala}>SALA 3D</Text>
 
             <View style={styles.linhaHorarios}>
-
               <TouchableOpacity style={styles.horario}>
                 <Text style={styles.textoHorario}>17:00</Text>
               </TouchableOpacity>
@@ -105,15 +85,12 @@ export default function Ingresso({ navigation }) {
               <TouchableOpacity style={styles.horario}>
                 <Text style={styles.textoHorario}>20:00</Text>
               </TouchableOpacity>
-
             </View>
 
-               <Text style={styles.sala}>
-              SALA 4XD
-            </Text>
+
+            <Text style={styles.sala}>SALA 4XD</Text>
 
             <View style={styles.linhaHorarios}>
-
               <TouchableOpacity style={styles.horario}>
                 <Text style={styles.textoHorario}>13:00</Text>
               </TouchableOpacity>
@@ -121,7 +98,6 @@ export default function Ingresso({ navigation }) {
               <TouchableOpacity style={styles.horario}>
                 <Text style={styles.textoHorario}>19:40</Text>
               </TouchableOpacity>
-
             </View>
 
           </View>
