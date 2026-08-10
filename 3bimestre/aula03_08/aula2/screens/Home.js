@@ -37,7 +37,7 @@ export default function Home({ navigation }) {
 
               <TouchableOpacity
                 style={styles.botao}
-                onPress={() => navigation.navigate('Detalhes')}
+                onPress={() => navigation.navigate('Ingresso')}
               >
                 <Text style={styles.textoBotao}>
                   Ingressos
