@@ -1,153 +1,399 @@
-import React from 'react-native';
-
 import {
   View,
+  ScrollView,
   Text,
-  StyleSheet,
-  TouchableOpacity,
   Image,
   FlatList,
+  StyleSheet
 } from 'react-native';
 
-const brinquedos = [
-  {
-    id: '1',
-    nome: 'Montezum',
-    imagem: require('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8rs4ezgj8P8Xv9aDPVn0ZlOnGFsZ55se6p4UT9VOHzXOfk-9nnFF27oA&s=10'),
-  },
 
-  {
-    id: '2',
-    nome: 'HADIKALI',
-    imagem: require('https://i0.statig.com.br/bancodeimagens/34/1z/zv/341zzvh7llitxuk7fa07fr215.jpg'),
-  },
+export default function Brinquedos() {
 
-  {
-    id: '3',
-    nome: 'Rio Bravo',
-    imagem: require('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6TNfxPydDMV_nX6sGf0NXxgYL9OSkHSSsOq8cE7wT4BtReS9czYh8iV8&s=10'),
-  },
+  const brinquedos = [
 
-  {
-    id: '4',
-    nome: 'Katapul',
-    imagem: require('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLN9MsRj7P9YW2AR4lAfbrckgbpfAywYL5fChna290I7kVCquPb-QKXSA&s=10'),
-  },
-];
+    {
+      id: '1',
+      nome: 'Montezum',
+      categoria: 'RADICAL',
+      descricao: 'Uma das atrações mais famosas do parque.',
+      foto: 'https://blog.hopihari.com.br/wp-content/uploads/2019/11/montezum-2.jpg'
+    },
 
-export default function Brinquedos({ navigation }) {
+    {
+      id: '2',
+      nome: 'Katapul',
+      categoria: 'RADICAL',
+      descricao: 'Velocidade e adrenalina em uma experiência intensa.',
+      foto: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlAuXWOcdyuBCS2kPlnqdXwsfAcy_N7oiig8Ljo9SCISwiCIfgbM2QfH49&s=10'
+    },
+
+    {
+      id: '3',
+      nome: 'Evolution',
+      categoria: 'RADICAL',
+      descricao: 'Uma atração para quem procura muita emoção.',
+      foto: 'https://blog.hopihari.ig.com.br/wp-content/uploads/2024/11/evolution.jpg'
+    },
+
+    {
+      id: '4',
+      nome: 'Rio Bravo',
+      categoria: 'AVENTURA',
+      descricao: 'Uma aventura pelas águas para curtir o parque.',
+      foto: 'https://blog.hopihari.com.br/wp-content/uploads/2021/09/rb.png'
+    }
+
+  ];
+
+
   return (
+
     <View style={styles.container}>
 
-      <Text style={styles.titulo}>
-        🎢 Brinquedos
-      </Text>
-
-      <Text style={styles.subtitulo}>
-        Conheça algumas atrações do Hopi Hari
-      </Text>
-
       <FlatList
+
         data={brinquedos}
+
         keyExtractor={(item) => item.id}
+
         showsVerticalScrollIndicator={false}
 
+
+        ListHeaderComponent={
+
+          <View>
+
+            <View style={styles.cabecalho}>
+
+              <Text style={styles.pequenoTitulo}>
+                EXPERIÊNCIA HOPI HARI
+              </Text>
+
+              <Text style={styles.titulo}>
+                Explore as atrações
+              </Text>
+
+              <Text style={styles.subtitulo}>
+                Descubra algumas das atrações mais incríveis do parque.
+              </Text>
+
+            </View>
+
+
+            <ScrollView
+
+              horizontal
+
+              showsHorizontalScrollIndicator={false}
+
+              contentContainerStyle={styles.conteudoCategorias}
+
+            >
+
+              <View style={styles.categoriaAtiva}>
+
+                <Text style={styles.textoCategoriaAtiva}>
+                  TODAS
+                </Text>
+
+              </View>
+
+
+              <View style={styles.categoriaBotao}>
+
+                <Text style={styles.textoCategoria}>
+                  RADICAIS
+                </Text>
+
+              </View>
+
+
+              <View style={styles.categoriaBotao}>
+
+                <Text style={styles.textoCategoria}>
+                  AVENTURA
+                </Text>
+
+              </View>
+
+
+              <View style={styles.categoriaBotao}>
+
+                <Text style={styles.textoCategoria}>
+                  FAMÍLIA
+                </Text>
+
+              </View>
+
+
+              <View style={styles.categoriaBotao}>
+
+                <Text style={styles.textoCategoria}>
+                  INFANTIL
+                </Text>
+
+              </View>
+
+            </ScrollView>
+
+          </View>
+
+        }
+
+
         renderItem={({ item }) => (
+
           <View style={styles.card}>
 
             <Image
-              source={item.imagem}
+              source={{ uri: item.foto }}
               style={styles.imagem}
+              resizeMode="cover"
             />
 
-            <Text style={styles.nome}>
-              {item.nome}
-            </Text>
+
+            <View style={styles.conteudoCard}>
+
+              <Text style={styles.tipo}>
+                {item.categoria}
+              </Text>
+
+              <Text style={styles.nome}>
+                {item.nome}
+              </Text>
+
+              <Text style={styles.descricao}>
+                {item.descricao}
+              </Text>
+
+            </View>
 
           </View>
+
         )}
+
       />
 
-      <TouchableOpacity
-        style={styles.botao}
-        onPress={() => navigation.navigate('Home')}
-      >
-        <Text style={styles.botaoTexto}>
-          ← VOLTAR PARA HOME
-        </Text>
-      </TouchableOpacity>
-
     </View>
+
   );
+
 }
 
+
+
 const styles = StyleSheet.create({
+
   container: {
+
     flex: 1,
-    backgroundColor: '#F4E8FF',
-    padding: 20,
-    paddingTop: 55,
+
+    backgroundColor: '#F4F1EA',
+
   },
+
+
+  cabecalho: {
+
+    paddingHorizontal: 24,
+
+    paddingTop: 30,
+
+    paddingBottom: 20,
+
+  },
+
+
+  pequenoTitulo: {
+
+    fontSize: 11,
+
+    color: '#D99A00',
+
+    fontWeight: 'bold',
+
+    letterSpacing: 2.5,
+
+    marginBottom: 8,
+
+  },
+
 
   titulo: {
-    fontSize: 32,
+
+    fontSize: 34,
+
     fontWeight: 'bold',
-    color: '#5B0FA8',
-    textAlign: 'center',
+
+    color: '#171717',
+
   },
+
 
   subtitulo: {
-    fontSize: 16,
-    color: '#555555',
-    textAlign: 'center',
-    marginTop: 5,
-    marginBottom: 20,
+
+    fontSize: 15,
+
+    color: '#666666',
+
+    lineHeight: 22,
+
+    marginTop: 8,
+
   },
+
+
+  conteudoCategorias: {
+
+    paddingHorizontal: 24,
+
+    paddingBottom: 25,
+
+    gap: 10,
+
+  },
+
+
+  categoriaAtiva: {
+
+    backgroundColor: '#171717',
+
+    paddingHorizontal: 22,
+
+    paddingVertical: 11,
+
+    borderRadius: 30,
+
+  },
+
+
+  categoriaBotao: {
+
+    backgroundColor: '#FFFFFF',
+
+    paddingHorizontal: 22,
+
+    paddingVertical: 11,
+
+    borderRadius: 30,
+
+    borderWidth: 1,
+
+    borderColor: '#E0DDD5',
+
+  },
+
+
+  textoCategoriaAtiva: {
+
+    color: '#FFFFFF',
+
+    fontSize: 11,
+
+    fontWeight: 'bold',
+
+    letterSpacing: 1,
+
+  },
+
+
+  textoCategoria: {
+
+    color: '#555555',
+
+    fontSize: 11,
+
+    fontWeight: 'bold',
+
+    letterSpacing: 1,
+
+  },
+
 
   card: {
+
     backgroundColor: '#FFFFFF',
-    borderRadius: 18,
-    marginBottom: 20,
+
+    marginHorizontal: 20,
+
+    marginBottom: 24,
+
+    borderRadius: 22,
+
     overflow: 'hidden',
 
-    elevation: 5,
+    elevation: 4,
 
     shadowColor: '#000',
+
     shadowOffset: {
+
       width: 0,
-      height: 3,
+
+      height: 4,
+
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
+
+    shadowOpacity: 0.10,
+
+    shadowRadius: 10,
+
   },
+
 
   imagem: {
+
     width: '100%',
-    height: 180,
-    resizeMode: 'cover',
-    backgroundColor: '#DDDDDD',
+
+    height: 240,
+
   },
+
+
+  conteudoCard: {
+
+    padding: 20,
+
+  },
+
+
+  tipo: {
+
+    fontSize: 11,
+
+    color: '#D99A00',
+
+    fontWeight: 'bold',
+
+    letterSpacing: 2,
+
+    marginBottom: 6,
+
+  },
+
 
   nome: {
-    fontSize: 22,
+
+    fontSize: 25,
+
     fontWeight: 'bold',
-    color: '#5B0FA8',
-    padding: 15,
-    textAlign: 'center',
+
+    color: '#171717',
+
+    marginBottom: 7,
+
   },
 
-  botao: {
-    backgroundColor: '#5B0FA8',
-    paddingVertical: 15,
-    borderRadius: 25,
-    alignItems: 'center',
-    marginTop: 10,
-    marginBottom: 10,
+
+  descricao: {
+
+    fontSize: 15,
+
+    lineHeight: 22,
+
+    color: '#707070',
+
   },
 
-  botaoTexto: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
 });
