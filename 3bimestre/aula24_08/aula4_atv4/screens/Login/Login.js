@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, Image, Alert } from 'reactnative';
 import styles from './Estilo';
 import { verificarLogin } from './Funcoe';
+
 export default function Login({ navigation }) {
 const [usuario, setUsuario] = useState('');
 const [senha, setSenha] = useState('');
