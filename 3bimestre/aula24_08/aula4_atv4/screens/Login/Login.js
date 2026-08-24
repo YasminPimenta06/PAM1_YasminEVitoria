@@ -9,37 +9,68 @@ import {
 } from 'react-native';
 
 export default function Login({ navigation }) {
-  const [usuario, setUsuario] = useState('');
+  const [nome, setNome] = useState('');
+  const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
 
-  function fazerLogin() {
-    if (usuario === 'admin' && senha === '1234') {
-      navigation.navigate('Home');
-    } else {
+  function cadastrarAluno() {
+    if (nome === '' || email === '' || senha === '') {
       Alert.alert(
-        'Erro',
-        'Usuário ou senha incorretos!'
+        'Atenção',
+        'Preencha todos os campos!'
       );
+      return;
     }
+
+    Alert.alert(
+      'Cadastro realizado!',
+      `Aluno ${nome} cadastrado com sucesso!`,
+      [
+        {
+          text: 'OK',
+          onPress: () => navigation.navigate('Home'),
+        },
+      ]
+    );
   }
 
   return (
     <View style={styles.container}>
 
       <Text style={styles.titulo}>
-        Login
+        CADASTRO DE ALUNO
+      </Text>
+
+      <Text style={styles.label}>
+        Nome
       </Text>
 
       <TextInput
         style={styles.input}
-        placeholder="Usuário"
-        value={usuario}
-        onChangeText={setUsuario}
+        placeholder="Digite o nome do aluno"
+        value={nome}
+        onChangeText={setNome}
       />
+
+      <Text style={styles.label}>
+        E-mail
+      </Text>
 
       <TextInput
         style={styles.input}
-        placeholder="Senha"
+        placeholder="Digite o e-mail"
+        keyboardType="email-address"
+        value={email}
+        onChangeText={setEmail}
+      />
+
+      <Text style={styles.label}>
+        Senha
+      </Text>
+
+      <TextInput
+        style={styles.input}
+        placeholder="Digite uma senha"
         secureTextEntry={true}
         value={senha}
         onChangeText={setSenha}
@@ -47,10 +78,10 @@ export default function Login({ navigation }) {
 
       <TouchableOpacity
         style={styles.botao}
-        onPress={fazerLogin}
+        onPress={cadastrarAluno}
       >
         <Text style={styles.textoBotao}>
-          ENTRAR
+          CADASTRAR
         </Text>
       </TouchableOpacity>
 
@@ -63,15 +94,24 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     padding: 25,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#417aa0',
+    alignItems: 'center'
   },
 
   titulo: {
-    fontSize: 32,
+    fontSize: 28,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginBottom: 30,
-    color: '#333',
+    color: '#0a0a0a',
+    marginBottom: 40
+  },
+
+  label: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#0e0c0c',
+    marginBottom: 5,
+    
   },
 
   input: {
@@ -80,18 +120,20 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 8,
-    paddingHorizontal: 15,
-    marginBottom: 15,
+    marginBottom: 18,
     fontSize: 16,
+    width: 600,
+    padding: 15
   },
 
   botao: {
     height: 50,
-    backgroundColor: '#007AFF',
+    backgroundColor: '#0a0a0a',
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 10,
+    width: 400
   },
 
   textoBotao: {
