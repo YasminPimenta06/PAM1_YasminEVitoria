@@ -1,87 +1,67 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+
 import {
   View,
   Text,
   TextInput,
   TouchableOpacity,
-  Alert,
   StyleSheet,
-} from 'react-native';
+  Alert,
+} from "react-native";
+
+import { validarLogin } from "./Funcao";
 
 export default function Login({ navigation }) {
-  const [nome, setNome] = useState('');
-  const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
+  const [nome, setNome] = useState("");
 
-  function cadastrarAluno() {
-    if (nome === '' || email === '' || senha === '') {
+  function entrar() {
+    const valido = validarLogin(nome);
+
+    if (!valido) {
       Alert.alert(
-        'Atenção',
-        'Preencha todos os campos!'
+        "Atenção",
+        "Digite seu nome para continuar."
       );
+
       return;
     }
 
-    Alert.alert(
-      'Cadastro realizado!',
-      `Aluno ${nome} cadastrado com sucesso!`,
-      [
-        {
-          text: 'OK',
-          onPress: () => navigation.navigate('Home'),
-        },
-      ]
-    );
+    navigation.navigate("Home", {
+      nome: nome.trim(),
+    });
   }
 
   return (
     <View style={styles.container}>
 
-      <Text style={styles.titulo}>
-        CADASTRO DE ALUNO
+      <Text style={styles.logo}>♫</Text>
+
+      <Text style={styles.title}>
+        MUSIFY
+      </Text>
+
+      <Text style={styles.subtitle}>
+        Crie playlists do seu jeito.
       </Text>
 
       <Text style={styles.label}>
-        Nome
+        Qual é o seu nome?
       </Text>
 
       <TextInput
         style={styles.input}
-        placeholder="Digite o nome do aluno"
+        placeholder="Digite seu nome"
+        placeholderTextColor="#888"
         value={nome}
         onChangeText={setNome}
       />
 
-      <Text style={styles.label}>
-        E-mail
-      </Text>
-
-      <TextInput
-        style={styles.input}
-        placeholder="Digite o e-mail"
-        keyboardType="email-address"
-        value={email}
-        onChangeText={setEmail}
-      />
-
-      <Text style={styles.label}>
-        Senha
-      </Text>
-
-      <TextInput
-        style={styles.input}
-        placeholder="Digite uma senha"
-        secureTextEntry={true}
-        value={senha}
-        onChangeText={setSenha}
-      />
-
       <TouchableOpacity
-        style={styles.botao}
-        onPress={cadastrarAluno}
+        style={styles.button}
+        onPress={entrar}
       >
-        <Text style={styles.textoBotao}>
-          CADASTRAR
+        <Text style={styles.buttonText}>
+          CONTINUAR
         </Text>
       </TouchableOpacity>
 
@@ -92,53 +72,60 @@ export default function Login({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    backgroundColor: "#100B10",
+    justifyContent: "center",
     padding: 25,
-    backgroundColor: '#417aa0',
-    alignItems: 'center'
   },
 
-  titulo: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    color: '#0a0a0a',
-    marginBottom: 40
+  logo: {
+    color: "#FF5A1F",
+    fontSize: 70,
+    textAlign: "center",
+  },
+
+  title: {
+    color: "#FFFFFF",
+    fontSize: 36,
+    fontWeight: "bold",
+    textAlign: "center",
+    letterSpacing: 4,
+  },
+
+  subtitle: {
+    color: "#999999",
+    fontSize: 16,
+    textAlign: "center",
+    marginTop: 8,
+    marginBottom: 50,
   },
 
   label: {
+    color: "#FFFFFF",
     fontSize: 16,
-    fontWeight: 'bold',
-    color: '#0e0c0c',
-    marginBottom: 5,
-    
+    marginBottom: 10,
   },
 
   input: {
-    height: 50,
-    backgroundColor: '#fff',
+    backgroundColor: "#211820",
+    borderColor: "#49323D",
     borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
-    marginBottom: 18,
+    borderRadius: 12,
+    padding: 16,
+    color: "#FFFFFF",
     fontSize: 16,
-    width: 600,
-    padding: 15
   },
 
-  botao: {
-    height: 50,
-    backgroundColor: '#0a0a0a',
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 10,
-    width: 400
+  button: {
+    backgroundColor: "#FF5A1F",
+    borderRadius: 12,
+    padding: 17,
+    alignItems: "center",
+    marginTop: 20,
   },
 
-  textoBotao: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
+  buttonText: {
+    color: "#FFFFFF",
+    fontWeight: "bold",
+    fontSize: 16,
   },
 });
