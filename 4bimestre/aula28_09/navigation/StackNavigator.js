@@ -2,7 +2,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Home from '../screens/Home';
-import Brinquedos from '../screens/Brinquedos';
+import Caso from '../screens/Caso';
 
 const Stack = createNativeStackNavigator();
 
@@ -18,8 +18,8 @@ export default function StackNavigator() {
         />
 
         <Stack.Screen
-        name="Brinquedos"
-        component={Brinquedos}
+        name="Caso"
+        component={Caso}
         />
 
       </Stack.Navigator>
