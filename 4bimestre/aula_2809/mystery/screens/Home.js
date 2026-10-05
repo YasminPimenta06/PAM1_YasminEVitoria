@@ -1,126 +1,225 @@
+import React from 'react';
+
 import {
   View,
   Text,
   TouchableOpacity,
-  StyleSheet
+  StyleSheet,
+  Image
 } from 'react-native';
 
+
 export default function Home({ navigation }) {
+
 
   function iniciarInvestigacao() {
     navigation.navigate('Caso');
   }
 
+
   function comoJogar() {
     alert(
-      'Investigue os suspeitos, analise as evidências e descubra quem é o culpado!'
+      'Investigue os suspeitos, analise as evidências, compare os depoimentos e descubra quem roubou o colar!'
     );
   }
 
+
   return (
+
     <View style={styles.container}>
 
-      <Text style={styles.icone}>🕵️</Text>
+
+      <Text style={styles.etiqueta}>
+        ARQUIVOS CONFIDENCIAIS
+      </Text>
+
+
+      <View style={styles.logoContainer}>
+
+        <Image
+          source={{
+            uri: 'https://png.pngtree.com/png-vector/20210525/ourmid/pngtree-letter-m-logo-png-vector-png-image_3320105.jpg'
+          }}
+          style={styles.logo}
+          resizeMode="cover"
+        />
+
+      </View>
+
 
       <Text style={styles.titulo}>
         MYSTERY
       </Text>
 
+
       <Text style={styles.subtitulo}>
         O mistério começa aqui.
       </Text>
 
+
+      <View style={styles.linha} />
+
+
+
       <Text style={styles.descricao}>
-        Existem segredos escondidos, pistas esperando
-        para serem encontradas e uma verdade esperando
-        para ser descoberta.
+        Um objeto valioso desapareceu durante uma festa
+        na Mansão Oliveira.
       </Text>
 
+
+      <Text style={styles.descricaoSecundaria}>
+        Analise as pistas, investigue os suspeitos e descubra
+        quem está escondendo a verdade.
+      </Text>
+
+
       <TouchableOpacity
-        style={styles.botao}
+        style={styles.botaoPrincipal}
         onPress={iniciarInvestigacao}
       >
-        <Text style={styles.textoBotao}>
+
+        <Text style={styles.botaoPrincipalTexto}>
           INVESTIGAR
         </Text>
+
       </TouchableOpacity>
+
 
       <TouchableOpacity
         style={styles.botaoSecundario}
         onPress={comoJogar}
       >
-        <Text style={styles.textoBotaoSecundario}>
+
+        <Text style={styles.botaoSecundarioTexto}>
           COMO JOGAR
         </Text>
+
       </TouchableOpacity>
 
+
+      <Text style={styles.rodape}>
+        CASO #001 • O COLAR DESAPARECIDO
+      </Text>
+
+
     </View>
+
   );
 }
+
 
 const styles = StyleSheet.create({
 
   container: {
     flex: 1,
     backgroundColor: '#101014',
-    alignItems: 'center',
+    paddingHorizontal: 30,
     justifyContent: 'center',
-    padding: 30,
+    alignItems: 'center',
   },
 
-  icone: {
-    fontSize: 70,
-    marginBottom: 10,
+  etiqueta: {
+    color: '#C7A95B',
+    fontSize: 10,
+    fontWeight: 'bold',
+    letterSpacing: 3,
+    marginBottom: 20,
+  },
+
+  logoContainer: {
+    width: 115,
+    height: 115,
+    borderRadius: 58,
+    borderWidth: 2,
+    borderColor: '#C7A95B',
+    padding: 4,
+    marginBottom: 18,
+    overflow: 'hidden',
+  },
+
+  logo: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 55,
   },
 
   titulo: {
-    fontSize: 40,
-    fontWeight: 'bold',
     color: '#FFFFFF',
-    letterSpacing: 8,
+    fontSize: 42,
+    fontWeight: 'bold',
+    letterSpacing: 7,
   },
 
   subtitulo: {
-    fontSize: 18,
     color: '#C7A95B',
-    marginTop: 10,
+    fontSize: 14,
+    letterSpacing: 2,
+    marginTop: 8,
+  },
+
+  linha: {
+    width: 50,
+    height: 2,
+    backgroundColor: '#C7A95B',
+    marginVertical: 25,
   },
 
   descricao: {
-    color: '#B8B8B8',
-    textAlign: 'center',
+    color: '#FFFFFF',
+    fontSize: 15,
     lineHeight: 23,
-    marginTop: 25,
-    marginBottom: 40,
+    textAlign: 'center',
+    maxWidth: 330,
   },
 
-  botao: {
-    backgroundColor: '#C7A95B',
+  descricaoSecundaria: {
+    color: '#888888',
+    fontSize: 13,
+    lineHeight: 20,
+    textAlign: 'center',
+    maxWidth: 330,
+    marginTop: 10,
+    marginBottom: 28,
+  },
+
+  botaoPrincipal: {
     width: '100%',
-    padding: 16,
+    backgroundColor: '#C7A95B',
+    paddingVertical: 16,
     borderRadius: 8,
     alignItems: 'center',
-    marginBottom: 15,
   },
 
-  textoBotao: {
+  botaoPrincipalTexto: {
     color: '#101014',
+    fontSize: 14,
     fontWeight: 'bold',
-    fontSize: 16,
+    letterSpacing: 2,
   },
 
   botaoSecundario: {
-    borderWidth: 1,
-    borderColor: '#C7A95B',
     width: '100%',
-    padding: 16,
+    borderWidth: 1,
+    borderColor: '#44444C',
+    paddingVertical: 15,
     borderRadius: 8,
     alignItems: 'center',
+    marginTop: 12,
   },
 
-  textoBotaoSecundario: {
-    color: '#C7A95B',
+  botaoSecundarioTexto: {
+    color: '#FFFFFF',
+    fontSize: 13,
     fontWeight: 'bold',
+    letterSpacing: 1,
+  },
+
+  rodape: {
+    color: '#55555D',
+    fontSize: 9,
+    fontWeight: 'bold',
+    letterSpacing: 1,
+    marginTop: 25,
   },
 
 });

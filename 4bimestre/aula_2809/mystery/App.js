@@ -6,11 +6,17 @@ import Caso from './screens/Caso';
 import Suspeitos from './screens/Suspeitos';
 import Evidencias from './screens/Evidencias';
 import Depoimentos from './screens/Depoimentos';
+import Acusacao from './screens/Acusacao';
+import Resultado from './screens/Resultado';
+
 
 const Stack = createNativeStackNavigator();
 
+
 export default function App() {
+
   return (
+
     <NavigationContainer>
 
       <Stack.Navigator
@@ -19,15 +25,19 @@ export default function App() {
           headerStyle: {
             backgroundColor: '#101014',
           },
+
           headerTintColor: '#FFFFFF',
+
           headerTitleStyle: {
             fontWeight: 'bold',
           },
+
           contentStyle: {
             backgroundColor: '#101014',
           },
         }}
       >
+
 
         <Stack.Screen
           name="Home"
@@ -37,6 +47,7 @@ export default function App() {
           }}
         />
 
+
         <Stack.Screen
           name="Caso"
           component={Caso}
@@ -44,6 +55,7 @@ export default function App() {
             title: 'Caso #001',
           }}
         />
+
 
         <Stack.Screen
           name="Suspeitos"
@@ -53,6 +65,7 @@ export default function App() {
           }}
         />
 
+
         <Stack.Screen
           name="Evidencias"
           component={Evidencias}
@@ -60,6 +73,7 @@ export default function App() {
             title: 'Evidências',
           }}
         />
+
 
         <Stack.Screen
           name="Depoimentos"
@@ -69,8 +83,29 @@ export default function App() {
           }}
         />
 
+
+        <Stack.Screen
+          name="Acusacao"
+          component={Acusacao}
+          options={{
+            title: 'Acusação',
+          }}
+        />
+
+
+        <Stack.Screen
+          name="Resultado"
+          component={Resultado}
+          options={{
+            title: 'Resultado',
+            headerBackVisible: false,
+          }}
+        />
+
+
       </Stack.Navigator>
 
     </NavigationContainer>
+
   );
 }
