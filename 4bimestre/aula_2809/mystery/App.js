@@ -1,6 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+import Login from './screens/Login';
 import Home from './screens/Home';
 import Caso from './screens/Caso';
 import Suspeitos from './screens/Suspeitos';
@@ -8,6 +9,9 @@ import Evidencias from './screens/Evidencias';
 import Depoimentos from './screens/Depoimentos';
 import Acusacao from './screens/Acusacao';
 import Resultado from './screens/Resultado';
+import Cadastro from './screens/Cadastro';
+import Editar from './screens/Editar';
+
 
 
 const Stack = createNativeStackNavigator();
@@ -20,7 +24,7 @@ export default function App() {
     <NavigationContainer>
 
       <Stack.Navigator
-        initialRouteName="Home"
+        initialRouteName="Login"
         screenOptions={{
           headerStyle: {
             backgroundColor: '#101014',
@@ -37,6 +41,13 @@ export default function App() {
           },
         }}
       >
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{
+            headerShown: false,
+          }}
+        />
 
 
         <Stack.Screen
@@ -101,7 +112,20 @@ export default function App() {
             headerBackVisible: false,
           }}
         />
-
+        <Stack.Screen
+          name="Cadastro"
+          component={Cadastro}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Editar"
+          component={Editar}
+          options={{
+            headerShown: false,
+          }}
+        />
 
       </Stack.Navigator>
 

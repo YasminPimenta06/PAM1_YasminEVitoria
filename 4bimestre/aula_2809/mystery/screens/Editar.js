@@ -1,7 +1,7 @@
 import { Text, View, TextInput, Button, Image, TouchableOpacity, Alert,} from 'react-native'; 
 import { useState } from 'react'; 
 import { signInWithEmailAndPassword } from 'firebase/auth'; 
-import { auth } from '../../firebase/firebase'; 
+import { auth, db } from '../firebase/firebase';
 import estilos from './estilo'; 
 
 export default function Login({ navigation }) { 

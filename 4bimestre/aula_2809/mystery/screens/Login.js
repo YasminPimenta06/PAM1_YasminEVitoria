@@ -1,8 +1,18 @@
-import { Text, View, TextInput, Button, Image, TouchableOpacity, Alert,} from 'react-native'; 
-import { useState } from 'react'; 
-import { signInWithEmailAndPassword } from 'firebase/auth'; 
-import { auth } from '../../firebase/firebase'; 
-import estilos from './estilo'; 
+import {
+  Text,
+  View,
+  TextInput,
+  Button,
+  Image,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
+
+import { useState } from 'react';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebase/firebase';
+import estilos from './estilo';
+
 
 export default function Login({ navigation }) { 
     
@@ -10,54 +20,37 @@ export default function Login({ navigation }) {
     const [senha, setSenha] = useState(''); 
     
     
- async function fazerLogin() { 
-    
-    /*Verifica se os campos foram preenchidos*/
-     
-    if (!email || !senha) { 
-        Alert.alert( 
-            'Atenção', 
-            'Digite o e-mail e a senha.' 
-        ); 
-        return; 
-    } 
-    
-    try {
+ async function fazerLogin() {
+  console.log('BOTÃO ENTRAR CLICADO!');
 
-     /* Faz login usando Firebase Authentication*/
-      await signInWithEmailAndPassword(auth, email, senha); 
-      
-      /* Login realizado com sucesso*/ 
-      navigation.navigate('Home'); 
+  if (!email.trim() || !senha) {
+    window.alert('Digite o e-mail e a senha.');
+    return;
+  }
 
-    } catch (error) {
+  try {
+    console.log('Tentando entrar no Firebase...');
 
-         console.log(error); 
+    const usuario = await signInWithEmailAndPassword(
+      auth,
+      email.trim(),
+      senha
+    );
 
-     if ( 
-        error.code === 'auth/invalid-credential' || 
-        error.code === 'auth/user-not-found' || 
-        error.code === 'auth/wrong-password' 
-        ) {
-         Alert.alert( 
-            'Erro', 
-            'E-mail ou senha incorretos.' 
-            );
+    console.log('LOGIN REALIZADO!', usuario.user.email);
 
-    } else if (error.code === 'auth/invalid-email') {
-        Alert.alert( 
-            'Erro', 
-            'Digite um e-mail válido.' 
-        ); 
-                    
-    } else { 
-        Alert.alert( 
-            'Erro', 
-             'Não foi possível realizar o login.' 
-      ); 
-     } 
-   } 
- } 
+    window.alert('Login realizado com sucesso!');
+
+    navigation.replace('Home');
+
+  } catch (error) {
+    console.log('ERRO NO LOGIN:', error.code, error.message);
+
+    window.alert(
+      'Erro ao entrar: ' + (error.code || error.message)
+    );
+  }
+}
 return ( 
   <View style={estilos.container}> 
   
@@ -101,7 +94,7 @@ return (
         </View> 
 
         <TouchableOpacity 
-         onPress={() => navigation.navigate('Cadastro')} 
+         onPress={() => navigation.navigate('Home')} 
         > 
         <Text style={estilos.cadastro}> 
             Não possui uma conta? Cadastre-se 

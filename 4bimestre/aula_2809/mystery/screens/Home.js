@@ -1,225 +1,388 @@
+
 import React from 'react';
 
 import {
   View,
   Text,
+  ImageBackground,
   TouchableOpacity,
+  ScrollView,
   StyleSheet,
-  Image
+  ActivityIndicator,
+  useWindowDimensions,
+  Platform,
+  Alert,
 } from 'react-native';
 
+import {
+  useFonts,
+  CinzelDecorative_400Regular,
+  CinzelDecorative_700Bold,
+} from '@expo-google-fonts/cinzel-decorative';
+
+import {
+  CormorantGaramond_400Regular,
+  CormorantGaramond_400Regular_Italic,
+  CormorantGaramond_600SemiBold,
+} from '@expo-google-fonts/cormorant-garamond';
 
 export default function Home({ navigation }) {
 
+  const { width } = useWindowDimensions();
+  const telaPequena = width < 400;
+
+  const [fontsLoaded] = useFonts({
+    CinzelDecorative_400Regular,
+    CinzelDecorative_700Bold,
+    CormorantGaramond_400Regular,
+    CormorantGaramond_400Regular_Italic,
+    CormorantGaramond_600SemiBold,
+  });
 
   function iniciarInvestigacao() {
     navigation.navigate('Caso');
   }
 
-
   function comoJogar() {
-    alert(
-      'Investigue os suspeitos, analise as evidências, compare os depoimentos e descubra quem roubou o colar!'
+    const mensagem =
+      'Investigue os suspeitos, analise as evidências, compare os depoimentos e descubra quem roubou o colar!';
+
+    if (Platform.OS === 'web') {
+      window.alert(mensagem);
+    } else {
+      Alert.alert('Como jogar', mensagem);
+    }
+  }
+
+  if (!fontsLoaded) {
+    return (
+      <View style={styles.carregamento}>
+        <ActivityIndicator color="#B99A64" size="large" />
+      </View>
     );
   }
 
-
   return (
+    <ScrollView
+  style={styles.pagina}
+  contentContainerStyle={styles.conteudo}
+  showsVerticalScrollIndicator={true}
+  persistentScrollbar={true}
+  nestedScrollEnabled={true}
+>
 
-    <View style={styles.container}>
+      {/* ORNAMENTO SUPERIOR */}
 
+      <View style={styles.ornamento}>
+        <Text style={styles.ornamentoTexto}>
+          ✦
+        </Text>
+      </View>
 
-      <Text style={styles.etiqueta}>
-        ARQUIVOS CONFIDENCIAIS
-      </Text>
+      {/* LOGO */}
 
+      <View style={styles.cabecalho}>
 
-      <View style={styles.logoContainer}>
+        <Text
+          style={[
+            styles.logo,
+            telaPequena && styles.logoPequena
+          ]}
+          adjustsFontSizeToFit
+          numberOfLines={1}
+        >
+          MYSTERY
+        </Text>
 
-        <Image
-          source={{
-            uri: 'https://png.pngtree.com/png-vector/20210525/ourmid/pngtree-letter-m-logo-png-vector-png-image_3320105.jpg'
-          }}
-          style={styles.logo}
-          resizeMode="cover"
-        />
+        <Text style={styles.frase}>
+          Algumas verdades não devem ser reveladas.
+        </Text>
 
       </View>
 
+      {/* FOTO PRINCIPAL */}
 
-      <Text style={styles.titulo}>
-        MYSTERY
-      </Text>
+      <View style={styles.areaFoto}>
 
+        <ImageBackground
+          source={{
+            uri: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1400'
+          }}
+          style={styles.foto}
+          imageStyle={styles.imagem}
+          resizeMode="cover"
+        >
 
-      <Text style={styles.subtitulo}>
-        O mistério começa aqui.
-      </Text>
+          <View style={styles.sombraFoto} />
 
+          <View style={styles.conteudoFoto}>
 
-      <View style={styles.linha} />
+            <Text style={styles.nomeLocal}>
+              Mansão Oliveira
+            </Text>
 
+            <Text style={styles.fraseFoto}>
+              Naquela noite, todos tinham algo a esconder.
+            </Text>
 
+          </View>
 
-      <Text style={styles.descricao}>
-        Um objeto valioso desapareceu durante uma festa
-        na Mansão Oliveira.
-      </Text>
+        </ImageBackground>
 
+        <View style={styles.selo}>
+          <Text style={styles.seloSimbolo}>✦</Text>
+        </View>
 
-      <Text style={styles.descricaoSecundaria}>
-        Analise as pistas, investigue os suspeitos e descubra
-        quem está escondendo a verdade.
-      </Text>
+      </View>
 
+      {/* TEXTO DE SUSPENSE */}
+
+      <View style={styles.chamada}>
+
+        <Text style={styles.chamadaTitulo}>
+          Um colar desapareceu.
+        </Text>
+
+        <Text style={styles.chamadaDescricao}>
+          Entre segredos e mentiras,
+          a verdade espera para ser descoberta.
+        </Text>
+
+      </View>
+
+      {/* BOTÃO PRINCIPAL */}
 
       <TouchableOpacity
-        style={styles.botaoPrincipal}
+        style={styles.botao}
         onPress={iniciarInvestigacao}
+        activeOpacity={0.75}
+        accessibilityRole="button"
       >
 
-        <Text style={styles.botaoPrincipalTexto}>
-          INVESTIGAR
+        <Text style={styles.botaoTexto}>
+          INICIAR INVESTIGAÇÃO
+        </Text>
+
+        <Text style={styles.botaoSeta}>
+          ↗
         </Text>
 
       </TouchableOpacity>
 
+      {/* INSTRUÇÕES */}
 
       <TouchableOpacity
-        style={styles.botaoSecundario}
         onPress={comoJogar}
+        style={styles.comoJogar}
       >
-
-        <Text style={styles.botaoSecundarioTexto}>
-          COMO JOGAR
+        <Text style={styles.comoJogarTexto}>
+          Como jogar?
         </Text>
-
       </TouchableOpacity>
 
+      {/* DETALHE INFERIOR */}
 
-      <Text style={styles.rodape}>
-        CASO #001 • O COLAR DESAPARECIDO
+      <Text style={styles.ornamentoInferior}>
+        ❦
       </Text>
 
-
-    </View>
-
+    </ScrollView>
   );
 }
 
-
 const styles = StyleSheet.create({
 
-  container: {
+  pagina: {
     flex: 1,
-    backgroundColor: '#101014',
-    paddingHorizontal: 30,
-    justifyContent: 'center',
+    backgroundColor: '#080708',
+  },
+
+  conteudo: {
+    width: '100%',
+    maxWidth: 900,
+    alignSelf: 'center',
     alignItems: 'center',
+    paddingTop: 30,
+    paddingBottom: 55,
   },
 
-  etiqueta: {
-    color: '#C7A95B',
-    fontSize: 10,
-    fontWeight: 'bold',
-    letterSpacing: 3,
-    marginBottom: 20,
+  carregamento: {
+    flex: 1,
+    backgroundColor: '#080708',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
-  logoContainer: {
-    width: 115,
-    height: 115,
-    borderRadius: 58,
-    borderWidth: 2,
-    borderColor: '#C7A95B',
-    padding: 4,
+  ornamento: {
+    alignItems: 'center',
     marginBottom: 18,
-    overflow: 'hidden',
+  },
+
+  ornamentoTexto: {
+    color: '#B99A64',
+    fontSize: 24,
+  },
+
+  cabecalho: {
+    width: '100%',
+    alignItems: 'center',
+    paddingHorizontal: 12,
+    marginBottom: 35,
   },
 
   logo: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 55,
-  },
-
-  titulo: {
-    color: '#FFFFFF',
-    fontSize: 42,
-    fontWeight: 'bold',
-    letterSpacing: 7,
-  },
-
-  subtitulo: {
-    color: '#C7A95B',
-    fontSize: 14,
-    letterSpacing: 2,
-    marginTop: 8,
-  },
-
-  linha: {
-    width: 50,
-    height: 2,
-    backgroundColor: '#C7A95B',
-    marginVertical: 25,
-  },
-
-  descricao: {
-    color: '#FFFFFF',
-    fontSize: 15,
-    lineHeight: 23,
+    fontFamily: 'CinzelDecorative_700Bold',
+    fontSize: 58,
+    color: '#EDE8E4',
     textAlign: 'center',
-    maxWidth: 330,
+    textShadowColor: '#8A7777',
+    textShadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    textShadowRadius: 12,
   },
 
-  descricaoSecundaria: {
-    color: '#888888',
-    fontSize: 13,
-    lineHeight: 20,
+  logoPequena: {
+    fontSize: 40,
+  },
+
+  frase: {
+    fontFamily: 'CormorantGaramond_400Regular_Italic',
+    color: '#B7A8A2',
+    fontSize: 21,
     textAlign: 'center',
-    maxWidth: 330,
-    marginTop: 10,
-    marginBottom: 28,
-  },
-
-  botaoPrincipal: {
-    width: '100%',
-    backgroundColor: '#C7A95B',
-    paddingVertical: 16,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-
-  botaoPrincipalTexto: {
-    color: '#101014',
-    fontSize: 14,
-    fontWeight: 'bold',
-    letterSpacing: 2,
-  },
-
-  botaoSecundario: {
-    width: '100%',
-    borderWidth: 1,
-    borderColor: '#44444C',
-    paddingVertical: 15,
-    borderRadius: 8,
-    alignItems: 'center',
     marginTop: 12,
+    paddingHorizontal: 15,
   },
 
-  botaoSecundarioTexto: {
+  areaFoto: {
+    width: '100%',
+    position: 'relative',
+    marginBottom: 38,
+  },
+
+  foto: {
+    width: '100%',
+    height: 310,
+    justifyContent: 'flex-end',
+    backgroundColor: '#211B20',
+  },
+
+  imagem: {
+    opacity: 0.82,
+  },
+
+  sombraFoto: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(13, 8, 12, 0.28)',
+  },
+
+  conteudoFoto: {
+    paddingHorizontal: 28,
+    paddingBottom: 28,
+  },
+
+  nomeLocal: {
+    fontFamily: 'CormorantGaramond_600SemiBold',
     color: '#FFFFFF',
-    fontSize: 13,
-    fontWeight: 'bold',
-    letterSpacing: 1,
+    fontSize: 37,
+    textShadowColor: '#000000',
+    textShadowRadius: 8,
   },
 
-  rodape: {
-    color: '#55555D',
-    fontSize: 9,
-    fontWeight: 'bold',
-    letterSpacing: 1,
-    marginTop: 25,
+  fraseFoto: {
+    fontFamily: 'CormorantGaramond_400Regular_Italic',
+    color: '#E6DAD0',
+    fontSize: 19,
+    marginTop: 4,
+  },
+
+  selo: {
+    position: 'absolute',
+    bottom: -19,
+    right: 28,
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: '#681E2B',
+    borderWidth: 2,
+    borderColor: '#9B694C',
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 5,
+  },
+
+  seloSimbolo: {
+    color: '#D7B981',
+    fontSize: 25,
+  },
+
+  chamada: {
+    alignItems: 'center',
+    paddingHorizontal: 25,
+    marginBottom: 30,
+  },
+
+  chamadaTitulo: {
+    fontFamily: 'CormorantGaramond_600SemiBold',
+    color: '#EAE3DD',
+    fontSize: 32,
+    textAlign: 'center',
+  },
+
+  chamadaDescricao: {
+    fontFamily: 'CormorantGaramond_400Regular',
+    color: '#B9AFA9',
+    fontSize: 20,
+    lineHeight: 26,
+    textAlign: 'center',
+    marginTop: 8,
+    maxWidth: 420,
+  },
+
+  botao: {
+    borderWidth: 1,
+    borderColor: '#B99A64',
+    backgroundColor: '#171113',
+    paddingVertical: 15,
+    paddingHorizontal: 22,
+    minWidth: 235,
+    maxWidth: '85%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 15,
+    borderRadius: 3,
+  },
+
+  botaoTexto: {
+    fontFamily: 'CinzelDecorative_400Regular',
+    color: '#E8D4B3',
+    fontSize: 12,
+    textAlign: 'center',
+  },
+
+  botaoSeta: {
+    color: '#D6B77D',
+    fontSize: 21,
+  },
+
+  comoJogar: {
+    marginTop: 22,
+    padding: 8,
+  },
+
+  comoJogarTexto: {
+    fontFamily: 'CormorantGaramond_400Regular_Italic',
+    color: '#A99A90',
+    fontSize: 20,
+  },
+
+  ornamentoInferior: {
+    color: '#7A5B47',
+    fontSize: 27,
+    marginTop: 24,
   },
 
 });

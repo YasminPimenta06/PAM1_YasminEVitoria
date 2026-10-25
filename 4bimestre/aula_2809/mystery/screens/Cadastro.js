@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { createUserWithEmailAndPassword } from 'firebase/auth'; 
 import { doc, setDoc } from 'firebase/firestore'; 
 
-import { auth, db } from '../../firebase/firebase'; 
+import { auth, db } from '../firebase/firebase';
 
 import estilos from './estilo'; 
 
@@ -15,83 +15,74 @@ export default function Cadastro({ navigation }) {
      const [senha, setSenha] = useState(''); 
      const [confirmarSenha, setConfirmarSenha] = useState(''); 
      
-     async function cadastrar() { 
+     async function cadastrar() {
 
-    /* Verifica se todos os campos foram preenchidos*/ 
-    if (!nome || !email || !senha || !confirmarSenha) { 
-        Alert.alert( 
-            'Atenção', 
-            'Preencha todos os campos.' 
-        ); 
-        return; 
+  if (!nome.trim() || !email.trim() || !senha || !confirmarSenha) {
+    window.alert('Preencha todos os campos.');
+    return;
+  }
 
-    } /* Verifica se as senhas são iguais*/
-    if (senha !== confirmarSenha) { 
-      Alert.alert( 
-        'Atenção', 
-        'As senhas não são iguais.' 
-        ); 
-        return;
-        } 
-    
-        try {
+  if (senha !== confirmarSenha) {
+    window.alert('As senhas não são iguais.');
+    return;
+  }
 
-/* Cria o usuário no Firebase Authentication*/ 
-const usuarioCriado = await createUserWithEmailAndPassword(auth, email, senha); 
+  try {
+    console.log('Iniciando cadastro...');
 
-/* Pega o ID único do usuário*/
-const uid = usuarioCriado.user.uid; 
+    const usuarioCriado = await createUserWithEmailAndPassword(
+      auth,
+      email.trim(),
+      senha
+    );
 
-/*Salva os dados do usuário no Firestore*/
- await setDoc( 
-    doc(db, 'usuarios', uid), 
-    {
-     nome: nome, 
-     email: email, 
-    } 
-); 
+    const uid = usuarioCriado.user.uid;
 
-/* Cadastro concluído → volta para o Login */
-navigation.navigate('Login'); 
+    console.log('Usuário criado no Authentication:', uid);
 
-} catch (error) { 
+    try {
+      await setDoc(
+        doc(db, 'usuarios', uid),
+        {
+          nome: nome.trim(),
+          email: email.trim(),
+        }
+      );
 
-   console.log(error); 
-   
-/* E-mail já cadastrado*/ 
-if (error.code === 'auth/email-already-in-use') { 
-    
-    Alert.alert( 
-        'Erro', 
-        'Este e-mail já está cadastrado.' 
-    ); 
-   } 
-   
-/* E-mail inválido*/
- else if (error.code === 'auth/invalid-email') { 
-    Alert.alert( 
-        'Erro', 
-        'Digite um e-mail válido.' 
-    ); 
-} 
+      console.log('Dados salvos no Firestore!');
 
-/* Senha fraca*/
- else if (error.code === 'auth/weak-password') {
-    Alert.alert( 
-        'Erro', 
-        'A senha precisa ter pelo menos 6 caracteres.'
-    ); 
-} 
+    } catch (erroFirestore) {
+      console.error(
+        'ERRO NO FIRESTORE:',
+        erroFirestore.code,
+        erroFirestore.message
+      );
 
-/* Outros erros*/
- else { 
-    Alert.alert( 
-        'Erro', 
-        'Não foi possível realizar o cadastro.' 
-    ); 
-    } 
-  } 
-} 
+      window.alert(
+        'A conta foi criada, mas não foi possível salvar os dados no Firestore: ' +
+        erroFirestore.code
+      );
+
+      return;
+    }
+
+    window.alert('Cadastro realizado com sucesso!');
+
+    navigation.replace('Home');
+
+  } catch (error) {
+
+    console.error(
+      'ERRO NO CADASTRO:',
+      error.code,
+      error.message
+    );
+
+    window.alert(
+      'Erro ao cadastrar: ' + (error.code || error.message)
+    );
+  }
+}
  return ( 
   <View style={estilos.container}> 
 
