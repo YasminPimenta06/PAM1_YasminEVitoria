@@ -1,19 +1,44 @@
+
 import React, { useState } from 'react';
 
 import {
   View,
   Text,
-  FlatList,
   TouchableOpacity,
+  ScrollView,
   StyleSheet,
   Modal,
-  ScrollView
+  TextInput,
+  ActivityIndicator,
+  useWindowDimensions,
 } from 'react-native';
 
+import {
+  useFonts,
+  CinzelDecorative_400Regular,
+  CinzelDecorative_700Bold,
+} from '@expo-google-fonts/cinzel-decorative';
+
+import {
+  CormorantGaramond_400Regular,
+  CormorantGaramond_400Regular_Italic,
+  CormorantGaramond_600SemiBold,
+} from '@expo-google-fonts/cormorant-garamond';
+
+const CORES = {
+  fundo: '#080708',
+  painel: '#151012',
+  vinho: '#681E2B',
+  dourado: '#B99A64',
+  prata: '#EDE8E4',
+  texto: '#B9AFA9',
+  borda: '#49362F',
+};
 
 const depoimentos = [
   {
     id: '1',
+    numero: 'I',
     nome: 'Helena',
     horario: '22:15',
     resumo: 'Afirma que estava na cozinha.',
@@ -22,9 +47,9 @@ const depoimentos = [
     observacao:
       'Marina confirma que estava com Helena na cozinha durante parte do período investigado.',
   },
-
   {
     id: '2',
+    numero: 'II',
     nome: 'Rafael',
     horario: '22:30',
     resumo: 'Afirma que estava no jardim.',
@@ -33,9 +58,9 @@ const depoimentos = [
     observacao:
       'Rafael admite que entrou na mansão durante o período do crime, mas nenhuma evidência o coloca próximo ao escritório.',
   },
-
   {
     id: '3',
+    numero: 'III',
     nome: 'Marina',
     horario: '22:20',
     resumo: 'Afirma que estava com Helena.',
@@ -44,9 +69,9 @@ const depoimentos = [
     observacao:
       'O depoimento de Marina coincide com parte da versão apresentada por Helena.',
   },
-
   {
     id: '4',
+    numero: 'IV',
     nome: 'Lucas',
     horario: '22:40',
     resumo: 'Afirma que estava organizando a sala.',
@@ -57,421 +82,760 @@ const depoimentos = [
   },
 ];
 
-
 export default function Depoimentos() {
+  const [selecionado, setSelecionado] = useState(null);
+  const [anotacoes, setAnotacoes] = useState({});
+  const { width } = useWindowDimensions();
+  const pequeno = width < 390;
 
-  const [depoimentoSelecionado, setDepoimentoSelecionado] = useState(null);
+  const [fontsLoaded] = useFonts({
+    CinzelDecorative_400Regular,
+    CinzelDecorative_700Bold,
+    CormorantGaramond_400Regular,
+    CormorantGaramond_400Regular_Italic,
+    CormorantGaramond_600SemiBold,
+  });
 
-
-  function analisarDepoimento(depoimento) {
-    setDepoimentoSelecionado(depoimento);
+  function atualizarAnotacao(id, texto) {
+    setAnotacoes((anteriores) => ({
+      ...anteriores,
+      [id]: texto,
+    }));
   }
 
-
-  function fecharDepoimento() {
-    setDepoimentoSelecionado(null);
-  }
-
-
-  function renderizarDepoimento({ item }) {
-
+  if (!fontsLoaded) {
     return (
-      <TouchableOpacity
-        style={styles.card}
-        onPress={() => analisarDepoimento(item)}
-      >
-
-        <View style={styles.avatar}>
-          <Text style={styles.avatarTexto}>
-            {item.nome.charAt(0)}
-          </Text>
-        </View>
-
-
-        <View style={styles.informacoes}>
-
-          <Text style={styles.nome}>
-            {item.nome}
-          </Text>
-
-          <Text style={styles.horario}>
-            DEPOIMENTO • {item.horario}
-          </Text>
-
-          <Text style={styles.resumo}>
-            {item.resumo}
-          </Text>
-
-        </View>
-
-
-        <Text style={styles.seta}>
-          ›
-        </Text>
-
-      </TouchableOpacity>
+      <View style={styles.carregamento}>
+        <ActivityIndicator
+          color={CORES.dourado}
+          size="large"
+        />
+      </View>
     );
   }
 
-
   return (
-    <View style={styles.container}>
+    <View style={styles.pagina}>
 
-      <Text style={styles.etiqueta}>
-        INTERROGATÓRIOS
-      </Text>
-
-      <Text style={styles.titulo}>
-        💬 DEPOIMENTOS
-      </Text>
-
-      <Text style={styles.subtitulo}>
-        Analise as declarações e procure informações
-        que não correspondem às evidências.
-      </Text>
-
-
-      <View style={styles.aviso}>
-
-        <Text style={styles.avisoTitulo}>
-          ⚠ ATENÇÃO
-        </Text>
-
-        <Text style={styles.avisoTexto}>
-          Um dos depoimentos pode conter uma contradição.
-        </Text>
-
-      </View>
-
-
-      <FlatList
-        data={depoimentos}
-        renderItem={renderizarDepoimento}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.lista}
-        showsVerticalScrollIndicator={false}
-      />
-
-
-      <Modal
-        visible={depoimentoSelecionado !== null}
-        animationType="fade"
-        transparent={true}
-        onRequestClose={fecharDepoimento}
+      <ScrollView
+        contentContainerStyle={styles.scroll}
+        showsVerticalScrollIndicator={true}
+        persistentScrollbar={true}
+        keyboardShouldPersistTaps="handled"
       >
+        <View style={styles.conteudo}>
 
-        <View style={styles.fundoModal}>
+          {/* CABEÇALHO */}
 
-          <View style={styles.modal}>
+          <View style={styles.cabecalho}>
+            <Text style={styles.arquivo}>
+              MYSTERY · ARQUIVO Nº 001
+            </Text>
+            <Text style={styles.estrela}>✦</Text>
+          </View>
 
-            {depoimentoSelecionado && (
+          <View style={styles.ornamento}>
+            <View style={styles.linha} />
+            <Text style={styles.ornamentoTexto}>❦</Text>
+            <View style={styles.linha} />
+          </View>
 
-              <ScrollView
-                showsVerticalScrollIndicator={false}
+          <Text style={styles.etiqueta}>
+            REGISTROS DE INTERROGATÓRIO
+          </Text>
+
+          <Text
+            style={[
+              styles.titulo,
+              pequeno && styles.tituloPequeno,
+            ]}
+          >
+            DEPOIMENTOS
+          </Text>
+
+          <Text style={styles.subtitulo}>
+            Quatro versões de uma mesma noite.
+            Escute cada palavra e descubra
+            o que pode estar escondido.
+          </Text>
+
+          {/* AVISO */}
+
+          <View style={styles.aviso}>
+            <Text style={styles.avisoTitulo}>
+              ✧ ATENÇÃO, INVESTIGADOR
+            </Text>
+            <Text style={styles.avisoTexto}>
+              Um dos depoimentos pode conter uma
+              contradição. Compare as declarações
+              com as evidências recolhidas.
+            </Text>
+          </View>
+
+          {/* CONTADOR */}
+
+          <View style={styles.contador}>
+            <Text style={styles.contadorSimbolo}>✧</Text>
+            <Text style={styles.contadorTexto}>
+              04 DEPOIMENTOS REGISTRADOS
+            </Text>
+          </View>
+
+          {/* CARTÕES */}
+
+          {depoimentos.map((item) => (
+            <TouchableOpacity
+              key={item.id}
+              style={styles.card}
+              onPress={() => setSelecionado(item)}
+              activeOpacity={0.75}
+              accessibilityRole="button"
+              accessibilityLabel={
+                `Ler depoimento de ${item.nome}`
+              }
+            >
+              <View style={styles.cardTopo}>
+                <Text style={styles.cardIdentificacao}>
+                  INTERROGATÓRIO Nº {item.id.padStart(2, '0')}
+                </Text>
+                <Text style={styles.cardEstrela}>✦</Text>
+              </View>
+
+              <View style={styles.cardPrincipal}>
+                <View style={styles.retrato}>
+                  <Text style={styles.inicial}>
+                    {item.nome.charAt(0)}
+                  </Text>
+                  <Text style={styles.numero}>
+                    {item.numero}
+                  </Text>
+                </View>
+
+                <View style={styles.cardInformacoes}>
+                  <Text style={styles.nome}>
+                    {item.nome}
+                  </Text>
+
+                  <Text style={styles.horario}>
+                    DEPOIMENTO · {item.horario}
+                  </Text>
+
+                  <Text style={styles.resumo}>
+                    {item.resumo}
+                  </Text>
+                </View>
+              </View>
+
+              <View style={styles.divisoriaCard} />
+
+              <Text style={styles.trechoEtiqueta}>
+                TRECHO DO DEPOIMENTO
+              </Text>
+
+              <Text
+                style={styles.trecho}
+                numberOfLines={3}
               >
+                “{item.depoimento}”
+              </Text>
 
-                <View style={styles.avatarGrande}>
-
-                  <Text style={styles.avatarGrandeTexto}>
-                    {depoimentoSelecionado.nome.charAt(0)}
-                  </Text>
-
-                </View>
-
-
-                <Text style={styles.nomeModal}>
-                  {depoimentoSelecionado.nome}
+              <View style={styles.cardRodape}>
+                <Text style={styles.ler}>
+                  LER DEPOIMENTO COMPLETO
                 </Text>
+                <Text style={styles.seta}>↗</Text>
+              </View>
 
+            </TouchableOpacity>
+          ))}
 
-                <Text style={styles.classificacao}>
-                  DEPOIMENTO OFICIAL • {depoimentoSelecionado.horario}
-                </Text>
-
-
-                <View style={styles.linha} />
-
-
-                <Text style={styles.rotulo}>
-                  DECLARAÇÃO
-                </Text>
-
-
-                <View style={styles.declaracao}>
-
-                  <Text style={styles.aspas}>
-                    “
-                  </Text>
-
-                  <Text style={styles.textoDeclaracao}>
-                    {depoimentoSelecionado.depoimento}
-                  </Text>
-
-                </View>
-
-
-                <Text style={styles.rotulo}>
-                  ANOTAÇÃO DO INVESTIGADOR
-                </Text>
-
-
-                <View style={styles.observacao}>
-
-                  <Text style={styles.observacaoTexto}>
-                    🔎 {depoimentoSelecionado.observacao}
-                  </Text>
-
-                </View>
-
-
-                <TouchableOpacity
-                  style={styles.botaoFechar}
-                  onPress={fecharDepoimento}
-                >
-
-                  <Text style={styles.textoBotaoFechar}>
-                    FECHAR DEPOIMENTO
-                  </Text>
-
-                </TouchableOpacity>
-
-              </ScrollView>
-
-            )}
-
+          <View style={styles.rodape}>
+            <Text style={styles.rodapeSimbolo}>❦</Text>
+            <Text style={styles.rodapeTexto}>
+              TODA HISTÓRIA POSSUI MAIS DE UMA VERSÃO
+            </Text>
           </View>
 
         </View>
+      </ScrollView>
 
+      {/* TRANSCRIÇÃO COMPLETA */}
+
+      <Modal
+        visible={selecionado !== null}
+        animationType="fade"
+        transparent={true}
+        onRequestClose={() => setSelecionado(null)}
+      >
+        <View style={styles.fundoModal}>
+          <View style={styles.modal}>
+
+            {selecionado && (
+              <ScrollView
+                showsVerticalScrollIndicator={true}
+                persistentScrollbar={true}
+                keyboardShouldPersistTaps="handled"
+                contentContainerStyle={styles.modalConteudo}
+              >
+                <Text style={styles.modalArquivo}>
+                  TRANSCRIÇÃO CONFIDENCIAL · {selecionado.id.padStart(2, '0')}
+                </Text>
+
+                <View style={styles.modalOrnamento}>
+                  <View style={styles.linha} />
+                  <Text style={styles.modalEstrela}>✦</Text>
+                  <View style={styles.linha} />
+                </View>
+
+                <View style={styles.retratoGrande}>
+                  <Text style={styles.inicialGrande}>
+                    {selecionado.nome.charAt(0)}
+                  </Text>
+                </View>
+
+                <Text style={styles.nomeModal}>
+                  {selecionado.nome}
+                </Text>
+
+                <Text style={styles.classificacao}>
+                  DEPOIMENTO OFICIAL · {selecionado.horario}
+                </Text>
+
+                <View style={styles.divisoria} />
+
+                <Text style={styles.rotulo}>
+                  I · DECLARAÇÃO
+                </Text>
+
+                <View style={styles.declaracao}>
+                  <Text style={styles.aspas}>“</Text>
+                  <Text style={styles.textoDeclaracao}>
+                    {selecionado.depoimento}
+                  </Text>
+                  <Text style={styles.aspasFinal}>”</Text>
+                </View>
+
+                <Text style={styles.rotulo}>
+                  II · OBSERVAÇÃO DO INVESTIGADOR
+                </Text>
+
+                <View style={styles.observacao}>
+                  <Text style={styles.observacaoTexto}>
+                    {selecionado.observacao}
+                  </Text>
+                </View>
+
+                {/* ANOTAÇÕES INTERATIVAS */}
+
+                <Text style={styles.rotulo}>
+                  III · SUAS ANOTAÇÕES
+                </Text>
+
+                <Text style={styles.ajudaAnotacoes}>
+                  Registre dúvidas, detalhes importantes
+                  ou possíveis contradições.
+                </Text>
+
+                <TextInput
+                  style={styles.campoAnotacoes}
+                  multiline={true}
+                  placeholder="Escreva suas observações..."
+                  placeholderTextColor="#80736F"
+                  value={anotacoes[selecionado.id] || ''}
+                  onChangeText={(texto) =>
+                    atualizarAnotacao(selecionado.id, texto)
+                  }
+                  textAlignVertical="top"
+                  accessibilityLabel={
+                    `Anotações sobre ${selecionado.nome}`
+                  }
+                />
+
+                <Text style={styles.notaArmazenamento}>
+                  Anotações temporárias desta sessão.
+                </Text>
+
+                <TouchableOpacity
+                  style={styles.botaoFechar}
+                  onPress={() => setSelecionado(null)}
+                  activeOpacity={0.75}
+                  accessibilityRole="button"
+                >
+                  <Text style={styles.textoBotaoFechar}>
+                    FECHAR DEPOIMENTO
+                  </Text>
+                  <Text style={styles.fecharSeta}>×</Text>
+                </TouchableOpacity>
+
+              </ScrollView>
+            )}
+
+          </View>
+        </View>
       </Modal>
 
     </View>
   );
 }
 
-
 const styles = StyleSheet.create({
-
-  container: {
+  pagina: {
     flex: 1,
-    backgroundColor: '#101014',
-    padding: 22,
+    backgroundColor: CORES.fundo,
+  },
+
+  carregamento: {
+    flex: 1,
+    backgroundColor: CORES.fundo,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  scroll: {
+    flexGrow: 1,
+    alignItems: 'center',
+    paddingBottom: 55,
+  },
+
+  conteudo: {
+    width: '100%',
+    maxWidth: 850,
+    paddingHorizontal: 24,
+    paddingTop: 28,
+  },
+
+  cabecalho: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 28,
+  },
+
+  arquivo: {
+    color: CORES.dourado,
+    fontSize: 10,
+    letterSpacing: 1.6,
+  },
+
+  estrela: {
+    color: CORES.dourado,
+    fontSize: 22,
+  },
+
+  ornamento: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 16,
+    marginBottom: 23,
+  },
+
+  linha: {
+    width: 55,
+    height: 1,
+    backgroundColor: CORES.borda,
+  },
+
+  ornamentoTexto: {
+    color: CORES.dourado,
+    fontSize: 25,
   },
 
   etiqueta: {
-    color: '#C7A95B',
-    fontSize: 11,
-    fontWeight: 'bold',
-    letterSpacing: 2,
-    marginTop: 10,
+    textAlign: 'center',
+    color: CORES.dourado,
+    fontSize: 10,
+    letterSpacing: 2.4,
+    marginBottom: 14,
   },
 
   titulo: {
-    color: '#FFFFFF',
-    fontSize: 28,
-    fontWeight: 'bold',
-    marginTop: 8,
+    fontFamily: 'CinzelDecorative_700Bold',
+    color: CORES.prata,
+    fontSize: 33,
+    textAlign: 'center',
+    textShadowColor: '#59484C',
+    textShadowRadius: 10,
+  },
+
+  tituloPequeno: {
+    fontSize: 24,
   },
 
   subtitulo: {
-    color: '#999999',
-    fontSize: 14,
-    lineHeight: 21,
-    marginTop: 10,
+    fontFamily: 'CormorantGaramond_400Regular_Italic',
+    color: CORES.texto,
+    fontSize: 21,
+    lineHeight: 28,
+    textAlign: 'center',
+    marginTop: 18,
+    marginBottom: 27,
+    maxWidth: 470,
+    alignSelf: 'center',
   },
 
   aviso: {
-    backgroundColor: '#19191F',
+    backgroundColor: '#241519',
     borderLeftWidth: 3,
-    borderLeftColor: '#B84A4A',
-    padding: 14,
-    marginTop: 20,
-    marginBottom: 20,
+    borderLeftColor: CORES.vinho,
+    padding: 19,
+    marginBottom: 25,
   },
 
   avisoTitulo: {
-    color: '#B84A4A',
-    fontSize: 11,
-    fontWeight: 'bold',
-    letterSpacing: 1,
+    color: CORES.dourado,
+    fontSize: 10,
+    letterSpacing: 1.4,
   },
 
   avisoTexto: {
-    color: '#AAAAAA',
-    fontSize: 13,
-    marginTop: 5,
+    fontFamily: 'CormorantGaramond_400Regular',
+    color: CORES.prata,
+    fontSize: 20,
+    lineHeight: 26,
+    marginTop: 11,
   },
 
-  lista: {
-    paddingBottom: 30,
+  contador: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'center',
+    borderWidth: 1,
+    borderColor: CORES.borda,
+    backgroundColor: '#170F12',
+    paddingVertical: 11,
+    paddingHorizontal: 18,
+    gap: 11,
+    marginBottom: 29,
+  },
+
+  contadorSimbolo: {
+    color: CORES.dourado,
+    fontSize: 18,
+  },
+
+  contadorTexto: {
+    color: CORES.dourado,
+    fontSize: 10,
+    letterSpacing: 1.2,
   },
 
   card: {
-    backgroundColor: '#19191F',
+    backgroundColor: CORES.painel,
     borderWidth: 1,
-    borderColor: '#303038',
-    borderRadius: 10,
-    padding: 16,
-    marginBottom: 14,
+    borderColor: CORES.borda,
+    marginBottom: 19,
+    padding: 20,
+  },
+
+  cardTopo: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+
+  cardIdentificacao: {
+    color: CORES.dourado,
+    fontSize: 10,
+    letterSpacing: 1.5,
+  },
+
+  cardEstrela: {
+    color: '#8C6B56',
+    fontSize: 19,
+  },
+
+  cardPrincipal: {
     flexDirection: 'row',
     alignItems: 'center',
   },
 
-  avatar: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: '#C7A95B',
-    justifyContent: 'center',
+  retrato: {
+    width: 76,
+    height: 98,
+    borderWidth: 1,
+    borderColor: '#7B5A47',
+    backgroundColor: '#24171B',
+    marginRight: 18,
     alignItems: 'center',
-    marginRight: 14,
+    justifyContent: 'center',
   },
 
-  avatarTexto: {
-    color: '#101014',
-    fontSize: 19,
-    fontWeight: 'bold',
+  inicial: {
+    fontFamily: 'CinzelDecorative_400Regular',
+    color: '#D7C2B3',
+    fontSize: 36,
   },
 
-  informacoes: {
+  numero: {
+    fontFamily: 'CormorantGaramond_600SemiBold',
+    color: CORES.dourado,
+    fontSize: 15,
+    marginTop: 4,
+  },
+
+  cardInformacoes: {
     flex: 1,
   },
 
   nome: {
-    color: '#FFFFFF',
-    fontSize: 17,
-    fontWeight: 'bold',
+    fontFamily: 'CormorantGaramond_600SemiBold',
+    color: CORES.prata,
+    fontSize: 35,
   },
 
   horario: {
-    color: '#C7A95B',
+    color: CORES.dourado,
     fontSize: 10,
-    fontWeight: 'bold',
-    marginTop: 3,
+    letterSpacing: 1.3,
+    marginTop: 5,
   },
 
   resumo: {
-    color: '#999999',
-    fontSize: 13,
-    marginTop: 7,
+    fontFamily: 'CormorantGaramond_400Regular_Italic',
+    color: CORES.texto,
+    fontSize: 20,
+    marginTop: 10,
   },
 
-  seta: {
-    color: '#C7A95B',
-    fontSize: 30,
-  },
-
-
-  // MODAL
-
-  fundoModal: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.88)',
-    justifyContent: 'center',
-    padding: 20,
-  },
-
-  modal: {
-    backgroundColor: '#19191F',
-    borderWidth: 1,
-    borderColor: '#C7A95B',
-    borderRadius: 12,
-    padding: 22,
-    maxHeight: '88%',
-  },
-
-  avatarGrande: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: '#C7A95B',
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
-  },
-
-  avatarGrandeTexto: {
-    color: '#101014',
-    fontSize: 34,
-    fontWeight: 'bold',
-  },
-
-  nomeModal: {
-    color: '#FFFFFF',
-    fontSize: 25,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginTop: 12,
-  },
-
-  classificacao: {
-    color: '#C7A95B',
-    fontSize: 10,
-    fontWeight: 'bold',
-    letterSpacing: 1,
-    textAlign: 'center',
-    marginTop: 6,
-  },
-
-  linha: {
+  divisoriaCard: {
     height: 1,
-    backgroundColor: '#33333A',
+    backgroundColor: CORES.borda,
     marginVertical: 20,
   },
 
-  rotulo: {
-    color: '#C7A95B',
-    fontSize: 11,
-    fontWeight: 'bold',
-    letterSpacing: 2,
+  trechoEtiqueta: {
+    color: CORES.dourado,
+    fontSize: 9,
+    letterSpacing: 1.5,
     marginBottom: 10,
   },
 
-  declaracao: {
-    backgroundColor: '#24242B',
-    borderRadius: 8,
+  trecho: {
+    fontFamily: 'CormorantGaramond_400Regular_Italic',
+    color: CORES.prata,
+    fontSize: 21,
+    lineHeight: 28,
+  },
+
+  cardRodape: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+
+  ler: {
+    color: CORES.dourado,
+    fontSize: 10,
+    letterSpacing: 1.4,
+  },
+
+  seta: {
+    color: CORES.dourado,
+    fontSize: 22,
+  },
+
+  rodape: {
+    alignItems: 'center',
+    marginTop: 24,
+  },
+
+  rodapeSimbolo: {
+    color: CORES.dourado,
+    fontSize: 26,
+  },
+
+  rodapeTexto: {
+    color: '#85746C',
+    fontSize: 9,
+    letterSpacing: 1.6,
+    marginTop: 10,
+    textAlign: 'center',
+  },
+
+  fundoModal: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.92)',
+    justifyContent: 'center',
+    alignItems: 'center',
     padding: 16,
-    marginBottom: 22,
+  },
+
+  modal: {
+    width: '100%',
+    maxWidth: 620,
+    maxHeight: '90%',
+    backgroundColor: '#120C0F',
+    borderWidth: 1,
+    borderColor: CORES.dourado,
+  },
+
+  modalConteudo: {
+    padding: 23,
+    paddingBottom: 35,
+  },
+
+  modalArquivo: {
+    color: CORES.dourado,
+    fontSize: 9,
+    letterSpacing: 1.4,
+    textAlign: 'center',
+  },
+
+  modalOrnamento: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 13,
+    marginTop: 18,
+    marginBottom: 23,
+  },
+
+  modalEstrela: {
+    color: CORES.dourado,
+    fontSize: 19,
+  },
+
+  retratoGrande: {
+    width: 95,
+    height: 115,
+    alignSelf: 'center',
+    backgroundColor: '#26171C',
+    borderWidth: 1,
+    borderColor: '#8D6B53',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  inicialGrande: {
+    fontFamily: 'CinzelDecorative_700Bold',
+    fontSize: 49,
+    color: CORES.prata,
+  },
+
+  nomeModal: {
+    fontFamily: 'CinzelDecorative_400Regular',
+    fontSize: 31,
+    color: CORES.prata,
+    textAlign: 'center',
+    marginTop: 18,
+  },
+
+  classificacao: {
+    color: CORES.dourado,
+    fontSize: 9,
+    letterSpacing: 1.6,
+    textAlign: 'center',
+    marginTop: 10,
+  },
+
+  divisoria: {
+    height: 1,
+    backgroundColor: CORES.borda,
+    marginVertical: 25,
+  },
+
+  rotulo: {
+    color: CORES.dourado,
+    fontSize: 10,
+    letterSpacing: 1.4,
+    marginBottom: 12,
+  },
+
+  declaracao: {
+    backgroundColor: '#241519',
+    borderWidth: 1,
+    borderColor: CORES.borda,
+    padding: 20,
+    marginBottom: 28,
   },
 
   aspas: {
-    color: '#C7A95B',
-    fontSize: 32,
-    height: 25,
+    fontFamily: 'CormorantGaramond_600SemiBold',
+    color: CORES.dourado,
+    fontSize: 48,
+    height: 40,
   },
 
   textoDeclaracao: {
-    color: '#FFFFFF',
-    fontSize: 15,
-    lineHeight: 23,
-    fontStyle: 'italic',
+    fontFamily: 'CormorantGaramond_400Regular_Italic',
+    color: CORES.prata,
+    fontSize: 24,
+    lineHeight: 32,
+  },
+
+  aspasFinal: {
+    fontFamily: 'CormorantGaramond_600SemiBold',
+    color: CORES.dourado,
+    fontSize: 48,
+    textAlign: 'right',
+    height: 40,
   },
 
   observacao: {
-    backgroundColor: '#24242B',
-    borderLeftWidth: 3,
-    borderLeftColor: '#C7A95B',
-    padding: 14,
+    backgroundColor: '#1F1518',
+    borderLeftWidth: 2,
+    borderLeftColor: CORES.dourado,
+    padding: 19,
+    marginBottom: 30,
   },
 
   observacaoTexto: {
-    color: '#CCCCCC',
-    fontSize: 13,
-    lineHeight: 20,
+    fontFamily: 'CormorantGaramond_400Regular_Italic',
+    color: CORES.prata,
+    fontSize: 21,
+    lineHeight: 28,
+  },
+
+  ajudaAnotacoes: {
+    fontFamily: 'CormorantGaramond_400Regular',
+    color: CORES.texto,
+    fontSize: 19,
+    lineHeight: 25,
+    marginBottom: 13,
+  },
+
+  campoAnotacoes: {
+    minHeight: 125,
+    backgroundColor: '#1C1216',
+    borderWidth: 1,
+    borderColor: CORES.borda,
+    color: CORES.prata,
+    padding: 15,
+    fontFamily: 'CormorantGaramond_400Regular',
+    fontSize: 20,
+    lineHeight: 27,
+  },
+
+  notaArmazenamento: {
+    color: '#85746C',
+    fontSize: 10,
+    marginTop: 10,
   },
 
   botaoFechar: {
-    backgroundColor: '#C7A95B',
-    padding: 15,
-    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: CORES.dourado,
+    backgroundColor: '#24171A',
+    paddingVertical: 16,
+    paddingHorizontal: 18,
+    flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 25,
+    justifyContent: 'center',
+    gap: 17,
+    marginTop: 30,
   },
 
   textoBotaoFechar: {
-    color: '#101014',
-    fontWeight: 'bold',
-    letterSpacing: 1,
+    fontFamily: 'CinzelDecorative_400Regular',
+    color: '#E8D4B3',
+    fontSize: 12,
   },
 
+  fecharSeta: {
+    color: CORES.dourado,
+    fontSize: 24,
+  },
 });
