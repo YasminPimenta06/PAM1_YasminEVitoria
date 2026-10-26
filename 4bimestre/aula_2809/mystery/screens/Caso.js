@@ -1,310 +1,365 @@
+
 import React from 'react';
 
 import {
   View,
   Text,
   TouchableOpacity,
+  ScrollView,
   StyleSheet,
-  ScrollView
+  ActivityIndicator,
+  useWindowDimensions,
 } from 'react-native';
 
+import {
+  useFonts,
+  CinzelDecorative_400Regular,
+  CinzelDecorative_700Bold,
+} from '@expo-google-fonts/cinzel-decorative';
+
+import {
+  CormorantGaramond_400Regular,
+  CormorantGaramond_400Regular_Italic,
+  CormorantGaramond_600SemiBold,
+} from '@expo-google-fonts/cormorant-garamond';
+
+const CORES = {
+  fundo: '#080708',
+  painel: '#151012',
+  vinho: '#681E2B',
+  dourado: '#B99A64',
+  prata: '#EDE8E4',
+  texto: '#B9AFA9',
+  borda: '#49362F',
+};
 
 export default function Caso({ navigation }) {
+  const { width } = useWindowDimensions();
+  const pequeno = width < 390;
 
-  function abrirSuspeitos() {
-    navigation.navigate('Suspeitos');
+  const [fontsLoaded] = useFonts({
+    CinzelDecorative_400Regular,
+    CinzelDecorative_700Bold,
+    CormorantGaramond_400Regular,
+    CormorantGaramond_400Regular_Italic,
+    CormorantGaramond_600SemiBold,
+  });
+
+  const secoes = [
+    {
+      numero: 'I',
+      simbolo: '♟',
+      titulo: 'Suspeitos',
+      descricao: 'Conheça as quatro pessoas presentes na mansão.',
+      tela: 'Suspeitos',
+    },
+    {
+      numero: 'II',
+      simbolo: '✧',
+      titulo: 'Evidências',
+      descricao: 'Examine as pistas encontradas na cena.',
+      tela: 'Evidencias',
+    },
+    {
+      numero: 'III',
+      simbolo: '❝',
+      titulo: 'Depoimentos',
+      descricao: 'Compare as versões dadas pelos envolvidos.',
+      tela: 'Depoimentos',
+    },
+  ];
+
+  if (!fontsLoaded) {
+    return (
+      <View style={styles.carregamento}>
+        <ActivityIndicator
+          size="large"
+          color={CORES.dourado}
+        />
+      </View>
+    );
   }
-
-  function abrirEvidencias() {
-    navigation.navigate('Evidencias');
-  }
-
-  function abrirDepoimentos() {
-    navigation.navigate('Depoimentos');
-  }
-
-  function fazerAcusacao() {
-    navigation.navigate('Acusacao');
-  }
-
 
   return (
     <ScrollView
-      style={styles.container}
-      contentContainerStyle={styles.conteudo}
-      showsVerticalScrollIndicator={false}
+      style={styles.pagina}
+      contentContainerStyle={styles.scroll}
+      showsVerticalScrollIndicator={true}
+      persistentScrollbar={true}
     >
+      <View style={styles.conteudo}>
 
-      {/* CABEÇALHO */}
+        {/* IDENTIFICAÇÃO DO ARQUIVO */}
 
-      <View style={styles.topo}>
+        <View style={styles.cabecalho}>
+          <View style={styles.status}>
+            <View style={styles.statusPonto} />
+            <Text style={styles.statusTexto}>
+              CASO EM ABERTO
+            </Text>
+          </View>
 
-        <View style={styles.status}>
-          <View style={styles.bolinha} />
-
-          <Text style={styles.statusTexto}>
-            CASO EM ABERTO
+          <Text style={styles.numeroArquivo}>
+            ARQUIVO Nº 001
           </Text>
         </View>
 
-        <Text style={styles.numeroCaso}>
-          #001
+        {/* ORNAMENTO */}
+
+        <View style={styles.ornamento}>
+          <View style={styles.linha} />
+          <Text style={styles.ornamentoSimbolo}>
+            ✦
+          </Text>
+          <View style={styles.linha} />
+        </View>
+
+        {/* TÍTULO DO CASO */}
+
+        <Text style={styles.sobretitulo}>
+          DOSSIÊ CONFIDENCIAL
         </Text>
 
-      </View>
+        <Text
+          style={[
+            styles.titulo,
+            pequeno && styles.tituloPequeno,
+          ]}
+        >
+          O COLAR
+        </Text>
 
+        <Text
+          style={[
+            styles.tituloSecundario,
+            pequeno && styles.tituloSecundarioPequeno,
+          ]}
+        >
+          DESAPARECIDO
+        </Text>
 
-      {/* APRESENTAÇÃO DO CASO */}
+        <Text style={styles.frase}>
+          Toda joia guarda uma história.
+          Algumas escondem um crime.
+        </Text>
 
-      <Text style={styles.categoria}>
-        ARQUIVO DE INVESTIGAÇÃO
-      </Text>
+        {/* SELO DECORATIVO */}
 
-      <Text style={styles.titulo}>
-        O Colar{'\n'}Desaparecido
-      </Text>
+        <View style={styles.seloArea}>
+          <View style={styles.seloLinha} />
 
-      <Text style={styles.descricao}>
-        Durante uma festa na Mansão Oliveira, um valioso
-        colar de diamantes desapareceu sem deixar pistas claras.
-      </Text>
+          <View style={styles.selo}>
+            <Text style={styles.seloIcone}>
+              ✦
+            </Text>
+          </View>
 
+          <View style={styles.seloLinha} />
+        </View>
 
-      {/* INFORMAÇÕES RÁPIDAS */}
+        {/* RELATÓRIO */}
 
-      <View style={styles.resumo}>
-
-        <View style={styles.resumoItem}>
-          <Text style={styles.resumoIcone}>🕙</Text>
-
-          <View>
-            <Text style={styles.resumoRotulo}>
-              HORÁRIO
+        <View style={styles.relatorio}>
+          <View style={styles.relatorioTopo}>
+            <Text style={styles.relatorioEtiqueta}>
+              RELATÓRIO PRELIMINAR
             </Text>
 
-            <Text style={styles.resumoValor}>
-              22h — 23h
+            <Text style={styles.relatorioNumero}>
+              001 / M
+            </Text>
+          </View>
+
+          <Text style={styles.relatorioTitulo}>
+            O mistério da Mansão Oliveira
+          </Text>
+
+          <Text style={styles.relatorioTexto}>
+            Durante uma festa na Mansão Oliveira,
+            um valioso colar de diamantes
+            desapareceu sem deixar pistas claras.
+          </Text>
+
+          <View style={styles.divisoria} />
+
+          <View style={styles.detalhes}>
+            <View style={styles.detalhe}>
+              <Text style={styles.detalheRotulo}>
+                LOCAL DO OCORRIDO
+              </Text>
+              <Text style={styles.detalheValor}>
+                Mansão Oliveira
+              </Text>
+            </View>
+
+            <View style={styles.detalhe}>
+              <Text style={styles.detalheRotulo}>
+                HORÁRIO
+              </Text>
+              <Text style={styles.detalheValor}>
+                22h — 23h
+              </Text>
+            </View>
+          </View>
+
+          <View style={styles.objeto}>
+            <Text style={styles.objetoRotulo}>
+              OBJETO DESAPARECIDO
+            </Text>
+            <Text style={styles.objetoValor}>
+              Colar de diamantes
             </Text>
           </View>
         </View>
 
+        {/* MISSÃO */}
 
-        <View style={styles.separadorVertical} />
+        <View style={styles.missao}>
+          <Text style={styles.missaoOrnamento}>
+            ❦
+          </Text>
 
-
-        <View style={styles.resumoItem}>
-          <Text style={styles.resumoIcone}>📍</Text>
-
-          <View>
-            <Text style={styles.resumoRotulo}>
-              LOCAL
-            </Text>
-
-            <Text style={styles.resumoValor}>
-              Mansão Oliveira
-            </Text>
-          </View>
-        </View>
-
-      </View>
-
-
-      {/* MISSÃO */}
-
-      <View style={styles.missao}>
-
-        <Text style={styles.missaoNumero}>
-          01
-        </Text>
-
-        <View style={styles.missaoConteudo}>
-
-          <Text style={styles.missaoTitulo}>
+          <Text style={styles.missaoEtiqueta}>
             SUA MISSÃO
           </Text>
 
           <Text style={styles.missaoTexto}>
-            Descubra quem roubou o colar analisando pessoas,
-            pistas e versões do ocorrido.
+            Descubra quem roubou o colar analisando
+            pessoas, pistas e versões do ocorrido.
+          </Text>
+        </View>
+
+        {/* SEÇÕES DA INVESTIGAÇÃO */}
+
+        <View style={styles.secaoCabecalho}>
+          <Text style={styles.secaoEtiqueta}>
+            OS CAMINHOS DA VERDADE
           </Text>
 
+          <Text style={styles.secaoTitulo}>
+            A investigação
+          </Text>
+
+          <Text style={styles.secaoDescricao}>
+            Por onde deseja começar?
+          </Text>
         </View>
+
+        {secoes.map((secao) => (
+          <TouchableOpacity
+            key={secao.tela}
+            style={styles.card}
+            onPress={() =>
+              navigation.navigate(secao.tela)
+            }
+            activeOpacity={0.75}
+            accessibilityRole="button"
+          >
+            <View style={styles.cardSimboloArea}>
+              <Text style={styles.cardSimbolo}>
+                {secao.simbolo}
+              </Text>
+            </View>
+
+            <View style={styles.cardConteudo}>
+              <Text style={styles.cardNumero}>
+                CAPÍTULO {secao.numero}
+              </Text>
+
+              <Text style={styles.cardTitulo}>
+                {secao.titulo}
+              </Text>
+
+              <Text style={styles.cardDescricao}>
+                {secao.descricao}
+              </Text>
+            </View>
+
+            <Text style={styles.cardSeta}>
+              ↗
+            </Text>
+          </TouchableOpacity>
+        ))}
+
+        {/* ACUSAÇÃO FINAL */}
+
+        <View style={styles.final}>
+          <View style={styles.finalOrnamento}>
+            <View style={styles.linha} />
+            <Text style={styles.finalSimbolo}>
+              ✧
+            </Text>
+            <View style={styles.linha} />
+          </View>
+
+          <Text style={styles.finalEtiqueta}>
+            O JULGAMENTO DA VERDADE
+          </Text>
+
+          <Text style={styles.finalTitulo}>
+            Quem roubou o colar?
+          </Text>
+
+          <Text style={styles.finalTexto}>
+            Quando todas as pistas estiverem
+            diante de você, será hora de decidir.
+          </Text>
+
+          <TouchableOpacity
+            style={styles.botaoAcusacao}
+            onPress={() =>
+              navigation.navigate('Acusacao')
+            }
+            activeOpacity={0.75}
+            accessibilityRole="button"
+          >
+            <Text style={styles.botaoTexto}>
+              FAZER ACUSAÇÃO
+            </Text>
+
+            <Text style={styles.botaoSeta}>
+              ↗
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        <Text style={styles.rodape}>
+          MYSTERY · ARQUIVO CONFIDENCIAL
+        </Text>
 
       </View>
-
-
-      {/* INVESTIGAÇÃO */}
-
-      <View style={styles.secaoCabecalho}>
-
-        <Text style={styles.secaoTitulo}>
-          Investigação
-        </Text>
-
-        <Text style={styles.secaoSubtitulo}>
-          Escolha por onde começar
-        </Text>
-
-      </View>
-
-
-      <TouchableOpacity
-        style={styles.card}
-        onPress={abrirSuspeitos}
-        activeOpacity={0.7}
-      >
-
-        <View style={styles.cardIcone}>
-          <Text style={styles.emoji}>👥</Text>
-        </View>
-
-        <View style={styles.cardConteudo}>
-
-          <Text style={styles.cardNumero}>
-            01
-          </Text>
-
-          <Text style={styles.cardTitulo}>
-            Suspeitos
-          </Text>
-
-          <Text style={styles.cardDescricao}>
-            Conheça as quatro pessoas presentes na mansão.
-          </Text>
-
-        </View>
-
-        <Text style={styles.seta}>
-          →
-        </Text>
-
-      </TouchableOpacity>
-
-
-      <TouchableOpacity
-        style={styles.card}
-        onPress={abrirEvidencias}
-        activeOpacity={0.7}
-      >
-
-        <View style={styles.cardIcone}>
-          <Text style={styles.emoji}>🔍</Text>
-        </View>
-
-        <View style={styles.cardConteudo}>
-
-          <Text style={styles.cardNumero}>
-            02
-          </Text>
-
-          <Text style={styles.cardTitulo}>
-            Evidências
-          </Text>
-
-          <Text style={styles.cardDescricao}>
-            Examine as pistas encontradas na cena.
-          </Text>
-
-        </View>
-
-        <Text style={styles.seta}>
-          →
-        </Text>
-
-      </TouchableOpacity>
-
-
-      <TouchableOpacity
-        style={styles.card}
-        onPress={abrirDepoimentos}
-        activeOpacity={0.7}
-      >
-
-        <View style={styles.cardIcone}>
-          <Text style={styles.emoji}>💬</Text>
-        </View>
-
-        <View style={styles.cardConteudo}>
-
-          <Text style={styles.cardNumero}>
-            03
-          </Text>
-
-          <Text style={styles.cardTitulo}>
-            Depoimentos
-          </Text>
-
-          <Text style={styles.cardDescricao}>
-            Compare as versões dadas pelos envolvidos.
-          </Text>
-
-        </View>
-
-        <Text style={styles.seta}>
-          →
-        </Text>
-
-      </TouchableOpacity>
-
-
-      {/* ACUSAÇÃO */}
-
-      <View style={styles.areaFinal}>
-
-        <Text style={styles.finalPequeno}>
-          CONCLUIU SUA INVESTIGAÇÃO?
-        </Text>
-
-        <Text style={styles.finalTitulo}>
-          Quem roubou o colar?
-        </Text>
-
-        <Text style={styles.finalDescricao}>
-          Quando estiver confiante em sua conclusão,
-          faça sua acusação.
-        </Text>
-
-
-        <TouchableOpacity
-          style={styles.botaoAcusacao}
-          onPress={fazerAcusacao}
-          activeOpacity={0.8}
-        >
-
-          <Text style={styles.botaoAcusacaoTexto}>
-            FAZER ACUSAÇÃO
-          </Text>
-
-          <Text style={styles.botaoSeta}>
-            →
-          </Text>
-
-        </TouchableOpacity>
-
-      </View>
-
     </ScrollView>
   );
 }
 
-
 const styles = StyleSheet.create({
 
-  container: {
+  pagina: {
     flex: 1,
-    backgroundColor: '#101014',
+    backgroundColor: CORES.fundo,
+  },
+
+  scroll: {
+    flexGrow: 1,
+    alignItems: 'center',
+    paddingBottom: 60,
   },
 
   conteudo: {
-    paddingHorizontal: 22,
-    paddingTop: 15,
-    paddingBottom: 45,
+    width: '100%',
+    maxWidth: 850,
+    paddingHorizontal: 24,
+    paddingTop: 26,
   },
 
+  carregamento: {
+    flex: 1,
+    backgroundColor: CORES.fundo,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 
-  // TOPO
-
-  topo: {
+  cabecalho: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -316,182 +371,291 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
-  bolinha: {
+  statusPonto: {
     width: 7,
     height: 7,
     borderRadius: 4,
-    backgroundColor: '#C7A95B',
-    marginRight: 8,
+    backgroundColor: CORES.vinho,
+    borderWidth: 1,
+    borderColor: CORES.dourado,
+    marginRight: 9,
   },
 
   statusTexto: {
-    color: '#999999',
     fontSize: 10,
-    fontWeight: 'bold',
     letterSpacing: 1.5,
+    color: CORES.dourado,
   },
 
-  numeroCaso: {
-    color: '#55555D',
-    fontSize: 12,
-    fontWeight: 'bold',
-    letterSpacing: 2,
-  },
-
-
-  // CASO
-
-  categoria: {
-    color: '#C7A95B',
+  numeroArquivo: {
     fontSize: 10,
-    fontWeight: 'bold',
-    letterSpacing: 2.5,
-    marginBottom: 10,
+    letterSpacing: 1.3,
+    color: '#85756C',
+  },
+
+  ornamento: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 15,
+    marginBottom: 25,
+  },
+
+  linha: {
+    height: 1,
+    width: 55,
+    backgroundColor: CORES.borda,
+  },
+
+  ornamentoSimbolo: {
+    color: CORES.dourado,
+    fontSize: 21,
+  },
+
+  sobretitulo: {
+    color: CORES.dourado,
+    fontSize: 10,
+    letterSpacing: 3,
+    textAlign: 'center',
+    marginBottom: 17,
   },
 
   titulo: {
-    color: '#FFFFFF',
-    fontSize: 38,
-    fontWeight: 'bold',
-    lineHeight: 43,
-    letterSpacing: -1,
+    fontFamily: 'CinzelDecorative_700Bold',
+    fontSize: 43,
+    color: CORES.prata,
+    textAlign: 'center',
+    textShadowColor: '#59484C',
+    textShadowRadius: 10,
   },
 
-  descricao: {
-    color: '#929299',
-    fontSize: 14,
-    lineHeight: 22,
-    marginTop: 15,
-    maxWidth: 350,
+  tituloPequeno: {
+    fontSize: 34,
   },
 
-
-  // RESUMO
-
-  resumo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#17171C',
-    borderRadius: 12,
-    marginTop: 28,
-    paddingVertical: 18,
-    paddingHorizontal: 16,
-  },
-
-  resumoItem: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-
-  resumoIcone: {
-    fontSize: 19,
-    marginRight: 10,
-  },
-
-  resumoRotulo: {
-    color: '#66666E',
-    fontSize: 9,
-    fontWeight: 'bold',
-    letterSpacing: 1,
-  },
-
-  resumoValor: {
-    color: '#E5E5E5',
-    fontSize: 12,
-    fontWeight: '600',
+  tituloSecundario: {
+    fontFamily: 'CinzelDecorative_400Regular',
+    fontSize: 27,
+    color: '#D7C9BF',
+    textAlign: 'center',
     marginTop: 3,
   },
 
-  separadorVertical: {
-    width: 1,
-    height: 35,
-    backgroundColor: '#2A2A31',
-    marginHorizontal: 12,
+  tituloSecundarioPequeno: {
+    fontSize: 21,
   },
 
+  frase: {
+    fontFamily: 'CormorantGaramond_400Regular_Italic',
+    fontSize: 21,
+    lineHeight: 27,
+    color: '#B8A59D',
+    textAlign: 'center',
+    marginTop: 20,
+    alignSelf: 'center',
+    maxWidth: 380,
+  },
 
-  // MISSÃO
-
-  missao: {
+  seloArea: {
     flexDirection: 'row',
-    marginTop: 25,
-    paddingBottom: 30,
-    borderBottomWidth: 1,
-    borderBottomColor: '#24242A',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 14,
+    marginVertical: 33,
   },
 
-  missaoNumero: {
-    color: '#C7A95B',
-    fontSize: 12,
-    fontWeight: 'bold',
-    marginRight: 18,
-    marginTop: 2,
+  seloLinha: {
+    width: 55,
+    height: 1,
+    backgroundColor: CORES.borda,
   },
 
-  missaoConteudo: {
-    flex: 1,
+  selo: {
+    width: 49,
+    height: 49,
+    borderRadius: 25,
+    backgroundColor: CORES.vinho,
+    borderWidth: 2,
+    borderColor: '#A17A55',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
-  missaoTitulo: {
-    color: '#FFFFFF',
-    fontSize: 12,
-    fontWeight: 'bold',
-    letterSpacing: 1.5,
+  seloIcone: {
+    fontSize: 26,
+    color: '#E0C18A',
   },
 
-  missaoTexto: {
-    color: '#85858C',
-    fontSize: 13,
-    lineHeight: 20,
-    marginTop: 7,
+  relatorio: {
+    backgroundColor: CORES.painel,
+    borderWidth: 1,
+    borderColor: CORES.borda,
+    padding: 23,
   },
 
-
-  // SEÇÃO
-
-  secaoCabecalho: {
-    marginTop: 32,
+  relatorioTopo: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    gap: 10,
     marginBottom: 18,
   },
 
-  secaoTitulo: {
-    color: '#FFFFFF',
+  relatorioEtiqueta: {
+    fontSize: 9,
+    letterSpacing: 1.7,
+    color: CORES.dourado,
+  },
+
+  relatorioNumero: {
+    fontSize: 10,
+    color: '#7D6D65',
+  },
+
+  relatorioTitulo: {
+    fontFamily: 'CormorantGaramond_600SemiBold',
+    fontSize: 29,
+    color: CORES.prata,
+    marginBottom: 11,
+  },
+
+  relatorioTexto: {
+    fontFamily: 'CormorantGaramond_400Regular',
+    fontSize: 21,
+    lineHeight: 29,
+    color: CORES.texto,
+  },
+
+  divisoria: {
+    height: 1,
+    backgroundColor: CORES.borda,
+    marginVertical: 23,
+  },
+
+  detalhes: {
+    flexDirection: 'row',
+    gap: 15,
+    flexWrap: 'wrap',
+  },
+
+  detalhe: {
+    flexGrow: 1,
+    flexBasis: 130,
+  },
+
+  detalheRotulo: {
+    fontSize: 9,
+    letterSpacing: 1.2,
+    color: CORES.dourado,
+  },
+
+  detalheValor: {
+    fontFamily: 'CormorantGaramond_600SemiBold',
     fontSize: 22,
-    fontWeight: 'bold',
+    color: CORES.prata,
+    marginTop: 7,
   },
 
-  secaoSubtitulo: {
-    color: '#6F6F76',
-    fontSize: 12,
-    marginTop: 4,
+  objeto: {
+    marginTop: 22,
+    paddingTop: 18,
+    borderTopWidth: 1,
+    borderTopColor: '#33282A',
   },
 
+  objetoRotulo: {
+    fontSize: 9,
+    color: CORES.dourado,
+    letterSpacing: 1.2,
+  },
 
-  // CARDS
+  objetoValor: {
+    fontFamily: 'CormorantGaramond_400Regular_Italic',
+    fontSize: 23,
+    color: CORES.prata,
+    marginTop: 7,
+  },
+
+  missao: {
+    alignItems: 'center',
+    paddingVertical: 38,
+    paddingHorizontal: 15,
+  },
+
+  missaoOrnamento: {
+    color: CORES.dourado,
+    fontSize: 29,
+    marginBottom: 12,
+  },
+
+  missaoEtiqueta: {
+    fontSize: 10,
+    color: CORES.dourado,
+    letterSpacing: 2.3,
+  },
+
+  missaoTexto: {
+    fontFamily: 'CormorantGaramond_400Regular_Italic',
+    color: CORES.prata,
+    fontSize: 23,
+    lineHeight: 30,
+    textAlign: 'center',
+    maxWidth: 460,
+    marginTop: 14,
+  },
+
+  secaoCabecalho: {
+    marginBottom: 24,
+    borderTopWidth: 1,
+    borderTopColor: CORES.borda,
+    paddingTop: 30,
+  },
+
+  secaoEtiqueta: {
+    color: CORES.dourado,
+    fontSize: 9,
+    letterSpacing: 2,
+    marginBottom: 8,
+  },
+
+  secaoTitulo: {
+    fontFamily: 'CormorantGaramond_600SemiBold',
+    fontSize: 39,
+    color: CORES.prata,
+  },
+
+  secaoDescricao: {
+    fontFamily: 'CormorantGaramond_400Regular_Italic',
+    fontSize: 20,
+    color: CORES.texto,
+    marginTop: 3,
+  },
 
   card: {
-    minHeight: 105,
-    backgroundColor: '#17171C',
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 11,
     flexDirection: 'row',
     alignItems: 'center',
+    backgroundColor: '#140F11',
+    borderWidth: 1,
+    borderColor: '#3D2D2A',
+    padding: 17,
+    marginBottom: 13,
+    minHeight: 112,
   },
 
-  cardIcone: {
-    width: 50,
-    height: 50,
-    borderRadius: 10,
-    backgroundColor: '#222228',
-    justifyContent: 'center',
+  cardSimboloArea: {
+    width: 48,
+    height: 58,
+    backgroundColor: '#26191E',
+    borderWidth: 1,
+    borderColor: '#583B3D',
     alignItems: 'center',
-    marginRight: 15,
+    justifyContent: 'center',
+    marginRight: 16,
   },
 
-  emoji: {
-    fontSize: 22,
+  cardSimbolo: {
+    color: '#D8B985',
+    fontSize: 27,
   },
 
   cardConteudo: {
@@ -499,86 +663,109 @@ const styles = StyleSheet.create({
   },
 
   cardNumero: {
-    color: '#C7A95B',
     fontSize: 9,
-    fontWeight: 'bold',
-    letterSpacing: 1.5,
+    color: CORES.dourado,
+    letterSpacing: 1.6,
   },
 
   cardTitulo: {
-    color: '#FFFFFF',
-    fontSize: 17,
-    fontWeight: 'bold',
-    marginTop: 3,
+    fontFamily: 'CormorantGaramond_600SemiBold',
+    fontSize: 28,
+    color: CORES.prata,
+    marginTop: 2,
   },
 
   cardDescricao: {
-    color: '#74747B',
-    fontSize: 12,
-    lineHeight: 17,
-    marginTop: 4,
-    paddingRight: 5,
+    fontFamily: 'CormorantGaramond_400Regular',
+    fontSize: 17,
+    lineHeight: 20,
+    color: CORES.texto,
+    marginTop: 2,
   },
 
-  seta: {
-    color: '#C7A95B',
-    fontSize: 20,
-    marginLeft: 10,
+  cardSeta: {
+    fontSize: 22,
+    color: CORES.dourado,
+    marginLeft: 8,
   },
 
-
-  // FINAL
-
-  areaFinal: {
-    marginTop: 35,
-    paddingTop: 28,
-    borderTopWidth: 1,
-    borderTopColor: '#24242A',
+  final: {
+    marginTop: 32,
+    alignItems: 'center',
+    backgroundColor: '#160D11',
+    borderWidth: 1,
+    borderColor: '#4E2D34',
+    paddingVertical: 33,
+    paddingHorizontal: 18,
   },
 
-  finalPequeno: {
-    color: '#C7A95B',
+  finalOrnamento: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 14,
+    marginBottom: 21,
+  },
+
+  finalSimbolo: {
+    color: CORES.dourado,
+    fontSize: 23,
+  },
+
+  finalEtiqueta: {
+    color: CORES.dourado,
     fontSize: 9,
-    fontWeight: 'bold',
     letterSpacing: 2,
+    textAlign: 'center',
   },
 
   finalTitulo: {
-    color: '#FFFFFF',
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginTop: 8,
+    fontFamily: 'CormorantGaramond_600SemiBold',
+    fontSize: 35,
+    color: CORES.prata,
+    textAlign: 'center',
+    marginTop: 13,
   },
 
-  finalDescricao: {
-    color: '#77777F',
-    fontSize: 13,
-    lineHeight: 20,
-    marginTop: 7,
+  finalTexto: {
+    fontFamily: 'CormorantGaramond_400Regular_Italic',
+    fontSize: 21,
+    lineHeight: 27,
+    color: CORES.texto,
+    textAlign: 'center',
+    maxWidth: 340,
+    marginTop: 10,
   },
 
   botaoAcusacao: {
-    backgroundColor: '#C7A95B',
-    borderRadius: 10,
-    paddingVertical: 17,
-    paddingHorizontal: 18,
-    marginTop: 20,
+    borderWidth: 1,
+    borderColor: CORES.dourado,
+    backgroundColor: '#24171A',
+    paddingVertical: 15,
+    paddingHorizontal: 22,
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
+    justifyContent: 'center',
+    gap: 15,
+    marginTop: 27,
   },
 
-  botaoAcusacaoTexto: {
-    color: '#101014',
-    fontSize: 13,
-    fontWeight: 'bold',
-    letterSpacing: 1.3,
+  botaoTexto: {
+    fontFamily: 'CinzelDecorative_400Regular',
+    fontSize: 12,
+    color: '#E8D4B3',
   },
 
   botaoSeta: {
-    color: '#101014',
-    fontSize: 20,
-    fontWeight: 'bold',
+    color: '#D6B77D',
+    fontSize: 21,
+  },
+
+  rodape: {
+    color: '#76635B',
+    fontSize: 9,
+    letterSpacing: 2,
+    textAlign: 'center',
+    marginTop: 40,
   },
 
 });
